@@ -1,0 +1,41 @@
+Product Requirements Document: Campaign Analytics Dashboard
+
+Overview:
+Build a campaign analytics dashboard for the AppAds mobile advertising platform.
+The dashboard should give advertisers a quick overview of their campaign performance.
+
+Page Type: Dashboard
+
+Required Sections:
+
+1. Sidebar Navigation
+   - Collapsible sidebar with menu items
+   - Links: Dashboard, Campaigns, Reporting, Billing, Settings
+   - User avatar and name at the bottom
+
+2. Top Navigation Bar
+   - Logo on the left
+   - Search input in the center
+   - Notification badge and user dropdown on the right
+
+3. Stats Overview (4 cards in a grid)
+   - Total Spend: $8,240 (+12% vs prev period)
+   - Impressions: 1.24M (TTR 3.4%)
+   - Taps: 41,100 (CR 6.8%)
+   - Installs: 2,795 (Avg CPI $2.95)
+
+4. Campaign Data Table
+   - Columns: Campaign Name, Status (badge), Budget/day, Spend, Impressions, Taps, Installs, CPI
+   - Sortable columns
+   - Filter tabs: All, Active, Paused, Draft
+   - Pagination at the bottom
+
+5. Alert Banner
+   - Info alert at the top: "Your campaign 'Brand KW' is approaching its daily budget limit"
+
+6. Progress Bar
+   - Monthly budget utilization: 68% of $12,000 used
+
+Device: Desktop-first, responsive
+UI Library: DaisyUI with Tailwind CSS
+Font: Inter

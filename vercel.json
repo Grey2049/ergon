@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "projects": [
+        {
+            "name": "ergon-frontend",
+            "rootDirectory": "frontend"
+        },
+        {
+            "name": "ergon-backend",
+            "rootDirectory": "backend"
+        }
+    ]
+}
