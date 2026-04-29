@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import appadsWireframeRaw from "../assets/docs/appads_wireframe.html?raw";
 import buildFigmaDashboardHTML from "./figmaDashboardHTML";
-import { generateDesign } from "../services/api";
+import { generateDesign, generateDesignStream } from "../services/api";
 
 // ── Icon helper ───────────────────────────────────────────────────────────
 
@@ -1153,6 +1153,20 @@ export default function AiChatPage() {
     e.target.value = "";
   };
 
+  // Human-readable labels for each agent tool
+  const TOOL_LABELS = {
+    parse_input: "Parsing your input…",
+    analyze_intent: "Analyzing intent & detecting page type…",
+    match_components: "Matching components from library…",
+    build_layout: "Building layout & generating prompt…",
+    generate_figma: "Generating Figma design…",
+    export_html: "Exporting HTML wireframe to CDN…",
+    validate_output: "Validating output quality…",
+    clarify_input: "Needs more information…",
+    refine_components: "Refining component selection…",
+    revise_layout: "Revising layout…",
+  };
+
   const send = async (text = input, figmaUrl = null) => {
     const trimmed = text.trim();
     if (!trimmed && files.length === 0 && !figmaUrl) return;
@@ -1163,125 +1177,104 @@ export default function AiChatPage() {
     const isFigmaFlow = !!(figmaUrl || userMsg.files.some(f => f.figmaMode));
     const hasFiles = userMsg.files.length > 0;
 
-    try {
-      // Determine input type and build the API call
-      let inputType = "text";
-      let apiText = trimmed;
-      let apiFile = null;
+    // Determine input type and build API params
+    let inputType = "text";
+    let apiText = trimmed;
+    let apiFile = null;
 
-      if (figmaUrl) {
-        inputType = "text";
-        apiText = `Figma URL: ${figmaUrl}\n\n${trimmed}`;
-      } else if (hasFiles) {
-        const firstFile = userMsg.files[0];
-        // If the file is an image, send as screenshot; otherwise as file
-        if (firstFile.type?.startsWith("image/") || firstFile.isImage) {
-          inputType = "screenshot";
-        } else {
-          inputType = "file";
-        }
-        // Build a real File object from the stored content for the API
-        const blob = new Blob([firstFile.content], { type: firstFile.type || "text/plain" });
-        apiFile = new File([blob], firstFile.name);
-        // Also send any text the user typed alongside the file
-        if (trimmed) apiText = trimmed;
-        else apiText = null;
-      }
-
-      // Show processing animation while the API call runs
-      const apiPromise = generateDesign({ inputType, text: apiText, file: apiFile });
-
-      // Animate processing steps in parallel with the API call
-      if (isFigmaFlow) {
-        const animPromise = (async () => {
-          for (let i = 0; i <= FIGMA_PROC_STEPS.length; i++) {
-            setFigmaProcIdx(i);
-            await new Promise(r => setTimeout(r, 600));
-          }
-          setFigmaProcIdx(-1);
-        })();
-        // Wait for both animation and API
-        const [apiResult] = await Promise.all([apiPromise, animPromise]);
-        var result = apiResult;
-      } else if (hasFiles) {
-        const steps = userMsg.files.some(f => f.wireframeMode)
-          ? ["Parsing wireframe structure…", "Mapping components…", "Applying design tokens…", "Building output…", "Finalizing…"]
-          : ["Sending to AI agent…", "Parsing input…", "Matching components…", "Generating design…", "Validating output…"];
-        const animPromise = (async () => {
-          for (let i = 0; i < steps.length; i++) {
-            setProcessingStep(steps[i]);
-            await new Promise(r => setTimeout(r, 500));
-          }
-        })();
-        const [apiResult] = await Promise.all([apiPromise, animPromise]);
-        var result = apiResult;
+    if (figmaUrl) {
+      inputType = "text";
+      apiText = `Figma URL: ${figmaUrl}\n\n${trimmed}`;
+    } else if (hasFiles) {
+      const firstFile = userMsg.files[0];
+      if (firstFile.type?.startsWith("image/") || firstFile.isImage) {
+        inputType = "screenshot";
       } else {
-        // Text-only: show typing dots while API runs
-        setProcessingStep("Thinking…");
-        var result = await apiPromise;
+        inputType = "file";
       }
+      const blob = new Blob([firstFile.content], { type: firstFile.type || "text/plain" });
+      apiFile = new File([blob], firstFile.name);
+      if (trimmed) apiText = trimmed;
+      else apiText = null;
+    }
 
-      setProcessingStep(null);
+    // Collect agent trace steps as they stream in
+    const traceSteps = [];
+    let finalResult = null;
 
-      // Build the assistant message from the API response
-      const agentTrace = result.reasoning_trace || [];
-      const validation = result.validation;
-      const traceText = agentTrace.length > 0
-        ? `\n\n**Agent trace** (${result.iterations} steps):\n${agentTrace.map(s => `- [${s.phase}] ${s.tool || "done"} ${s.success === false ? "❌" : s.success === true ? "✅" : ""}`).join("\n")}`
-        : "";
-      const coverageText = validation
-        ? `\n\n**Validation:** ${validation.passed ? "✅ Passed" : "⚠️ Issues found"} · Coverage: ${Math.round(validation.coverage_score * 100)}%`
-        : "";
+    try {
+      const stream = generateDesignStream({ inputType, text: apiText, file: apiFile });
 
-      let responseText = result.message || "Design generated.";
+      stream.onEvent("agent:start", (data) => {
+        setProcessingStep("Agent started…");
+      });
 
-      // If we got URLs, show them
-      if (result.figma_url) {
-        responseText += `\n\n**Figma:** [Open design](${result.figma_url})`;
-      }
-      if (result.html_url) {
-        responseText += `\n**HTML:** [View wireframe](${result.html_url})`;
-      }
-
-      responseText += traceText + coverageText;
-
-      // If the backend returned an HTML URL, try to fetch it for the inline preview
-      let wireframeHtml = null;
-      let wireType = null;
-      if (result.html_url) {
-        try {
-          const htmlRes = await fetch(result.html_url);
-          if (htmlRes.ok) {
-            wireframeHtml = await htmlRes.text();
-            wireType = isFigmaFlow ? "figma" : "campaign";
+      stream.onEvent("agent:step", (data) => {
+        if (data.status === "running" && data.tool) {
+          setProcessingStep(TOOL_LABELS[data.tool] || `Running ${data.tool}…`);
+          // For Figma generation, show the Figma processing animation
+          if (data.tool === "generate_figma") {
+            setFigmaProcIdx(0);
+            // Auto-advance the Figma animation steps
+            let idx = 0;
+            const iv = setInterval(() => { idx++; setFigmaProcIdx(idx); }, 500);
+            // Store interval to clear later
+            stream._figmaInterval = iv;
           }
-        } catch {
-          // HTML preview not available — that's fine, links still work
         }
-      }
+        if (data.status === "done") {
+          // Clear Figma animation if it was running
+          if (data.tool === "generate_figma" && stream._figmaInterval) {
+            clearInterval(stream._figmaInterval);
+            setFigmaProcIdx(-1);
+          }
+          traceSteps.push({
+            step: data.step,
+            phase: data.phase,
+            tool: data.tool,
+            success: data.success,
+            thought: data.thought,
+            duration_ms: data.duration_ms,
+          });
+          // Update processing step to show completion
+          const label = TOOL_LABELS[data.tool] || data.tool;
+          const icon = data.success ? "✓" : "✗";
+          setProcessingStep(`${icon} ${label.replace("…", "")} (${data.duration_ms}ms)`);
+        }
+      });
 
-      // Fallback: if no HTML from backend, use the local generators
-      if (!wireframeHtml && (hasFiles || figmaUrl)) {
-        const localResult = buildAiResponse(trimmed, userMsg.files, figmaUrl);
-        wireframeHtml = localResult.wireframe;
-        wireType = localResult.wireType;
-      }
+      stream.onEvent("agent:phase", (data) => {
+        const phaseLabels = {
+          understanding: "Understanding input…",
+          planning: "Planning design…",
+          generating: "Generating output…",
+          validating: "Validating result…",
+          complete: "Complete",
+          failed: "Failed",
+        };
+        setProcessingStep(phaseLabels[data.to_phase] || data.to_phase);
+      });
 
-      setMessages(prev => [...prev, {
-        role: "assistant",
-        content: responseText,
-        wireframe: wireframeHtml,
-        wireType: wireType,
-        figmaParams: isFigmaFlow ? { font: "Inter", ui: "DaisyUI", charts: "ApexCharts" } : null,
-        id: Date.now() + 1,
-      }]);
+      stream.onEvent("agent:result", (data) => {
+        finalResult = data;
+      });
+
+      stream.onEvent("agent:error", (data) => {
+        finalResult = { ...data, is_failed: true, message: data.error };
+      });
+
+      stream.onEvent("agent:clarify", (data) => {
+        finalResult = { needs_clarification: true, message: data.question };
+      });
+
+      // Run the stream
+      await stream.start();
 
     } catch (err) {
+      console.error("Stream error:", err);
+      // Fallback to local mock
       setProcessingStep(null);
       setFigmaProcIdx(-1);
-      console.error("Agent API error:", err);
-
-      // Fallback to local mock response on API failure
       const { text: resp, wireframe, wireType, figmaParams } = buildAiResponse(trimmed, userMsg.files, figmaUrl);
       setMessages(prev => [...prev, {
         role: "assistant",
@@ -1289,7 +1282,62 @@ export default function AiChatPage() {
         wireframe, wireType, figmaParams,
         id: Date.now() + 1,
       }]);
+      setLoading(false);
+      return;
     }
+
+    setProcessingStep(null);
+    setFigmaProcIdx(-1);
+
+    // Build the assistant message from the streamed result
+    if (!finalResult) {
+      finalResult = { message: "No response from agent.", is_failed: true };
+    }
+
+    const validation = finalResult.validation;
+    const traceText = traceSteps.length > 0
+      ? `\n\n**Agent trace** (${finalResult.iterations || traceSteps.length} steps):\n` +
+      traceSteps.map(s =>
+        `- [${s.phase}] ${s.tool || "done"} ${s.success === false ? "❌" : s.success === true ? "✅" : ""} (${s.duration_ms}ms)`
+      ).join("\n")
+      : "";
+    const coverageText = validation
+      ? `\n\n**Validation:** ${validation.passed ? "✅ Passed" : "⚠️ Issues found"} · Coverage: ${Math.round((validation.coverage_score || 0) * 100)}%`
+      : "";
+
+    let responseText = finalResult.message || "Design generated.";
+    if (finalResult.figma_url) responseText += `\n\n**Figma:** [Open design](${finalResult.figma_url})`;
+    if (finalResult.html_url) responseText += `\n**HTML:** [View wireframe](${finalResult.html_url})`;
+    responseText += traceText + coverageText;
+
+    // Try to fetch HTML for inline preview
+    let wireframeHtml = null;
+    let wireType = null;
+    if (finalResult.html_url) {
+      try {
+        const htmlRes = await fetch(finalResult.html_url);
+        if (htmlRes.ok) {
+          wireframeHtml = await htmlRes.text();
+          wireType = isFigmaFlow ? "figma" : "campaign";
+        }
+      } catch { /* preview not available */ }
+    }
+
+    // Fallback to local generators if no HTML from backend
+    if (!wireframeHtml && (hasFiles || figmaUrl)) {
+      const localResult = buildAiResponse(trimmed, userMsg.files, figmaUrl);
+      wireframeHtml = localResult.wireframe;
+      wireType = localResult.wireType;
+    }
+
+    setMessages(prev => [...prev, {
+      role: "assistant",
+      content: responseText,
+      wireframe: wireframeHtml,
+      wireType: wireType,
+      figmaParams: isFigmaFlow ? { font: "Inter", ui: "DaisyUI", charts: "ApexCharts" } : null,
+      id: Date.now() + 1,
+    }]);
 
     setLoading(false);
   };
