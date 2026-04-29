@@ -634,6 +634,104 @@ function buildAiResponse(text, files, figmaUrl) {
   return { text: text_resp, wireframe: null, wireType: null };
 }
 
+// ── Figma processing steps ────────────────────────────────────────────────
+
+const FIGMA_PROC_STEPS = [
+  "Analysing Figma design structure…",
+  "Fetching Inter font from Google Fonts…",
+  "Installing DaisyUI design tokens…",
+  "Configuring ApexCharts components…",
+  "Assembling page layout & components…",
+  "Building React-ready HTML output…",
+];
+
+const FIGMA_TECH_PILLS = [
+  { icon: "T", label: "Inter" },
+  { icon: "◈", label: "DaisyUI" },
+  { icon: "↗", label: "ApexCharts" },
+];
+
+function FigmaProcessingCard({ stepIdx }) {
+  return (
+    <div style={{
+      borderRadius: 20,
+      background: "linear-gradient(160deg, #1e1152 0%, #2d1a6e 50%, #1a0e4f 100%)",
+      padding: "36px 32px 28px",
+      minWidth: 360,
+      maxWidth: 420,
+    }}>
+      {/* Figma icon */}
+      <div className="flex justify-center mb-8">
+        <div style={{ position: "relative", width: 96, height: 96 }}>
+          <div style={{
+            position: "absolute", inset: 0, borderRadius: "50%",
+            border: "1.5px solid rgba(167,85,247,0.25)",
+          }} />
+          <div style={{
+            position: "absolute", inset: 10, borderRadius: "50%",
+            border: "1.5px solid rgba(167,85,247,0.4)",
+          }} />
+          <div style={{
+            position: "absolute", inset: 22, borderRadius: "50%",
+            background: "linear-gradient(135deg,#7c3aed,#a855f7)",
+            boxShadow: "0 0 28px rgba(167,85,247,0.6)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6">
+              <path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/>
+              <path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/>
+              <path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/>
+              <path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/>
+              <path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* Steps */}
+      <div className="flex flex-col gap-2.5 mb-7">
+        {FIGMA_PROC_STEPS.map((step, i) => {
+          const done    = i < stepIdx;
+          const current = i === stepIdx;
+          const future  = i > stepIdx;
+          return (
+            <div key={i} className="flex items-center gap-3"
+              style={{ animation: done || current ? `fadeSlideIn 0.25s ease-out both` : undefined, opacity: future ? 0.3 : 1, transition: "opacity 0.3s" }}>
+              {done ? (
+                <span style={{ width: 20, height: 20, borderRadius: "50%", background: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="white" strokeWidth="2"><polyline points="2 6 5 9 10 3"/></svg>
+                </span>
+              ) : current ? (
+                <span style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#a855f7)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 0 8px rgba(167,85,247,0.7)" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "white", animation: "tdot 1s ease-in-out 0s infinite" }} />
+                </span>
+              ) : (
+                <span style={{ width: 20, height: 20, borderRadius: "50%", border: "1.5px solid rgba(167,85,247,0.3)", flexShrink: 0 }} />
+              )}
+              <span style={{ fontSize: 13, fontWeight: current ? 600 : 400, color: done ? "#86efac" : current ? "#e9d5ff" : "#c4b5fd", letterSpacing: "-0.01em" }}>
+                {step}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Tech pills */}
+      <div className="flex gap-2 justify-center">
+        {FIGMA_TECH_PILLS.map(({ icon, label }) => (
+          <span key={label} style={{
+            background: "rgba(124,58,237,0.2)", border: "1px solid rgba(167,85,247,0.3)",
+            borderRadius: 20, padding: "5px 13px", fontSize: 12, color: "#c4b5fd",
+            display: "flex", alignItems: "center", gap: 5,
+          }}>
+            <span style={{ opacity: 0.7, fontSize: 11 }}>{icon}</span>{label}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Typing indicator ──────────────────────────────────────────────────────
 
 function TypingDots() {
@@ -996,6 +1094,8 @@ export default function AiChatPage() {
   const [input, setInput]           = useState("");
   const [files, setFiles]           = useState([]);
   const [loading, setLoading]       = useState(false);
+  const [processingStep, setProcessingStep] = useState(null);
+  const [figmaProcIdx, setFigmaProcIdx]     = useState(-1);
   const [activeNav, setActiveNav]   = useState("chat");
   const [showFigmaModal, setShowFigmaModal] = useState(false);
 
@@ -1049,7 +1149,29 @@ export default function AiChatPage() {
     const userMsg = { role: "user", content: trimmed, files: [...files], figmaUrl, id: Date.now() };
     setMessages(prev => [...prev, userMsg]);
     setInput(""); setFiles([]); setLoading(true);
-    await new Promise(r => setTimeout(r, 700 + Math.random() * 500));
+
+    const isFigmaFlow = !!(figmaUrl || userMsg.files.some(f => f.figmaMode));
+    const isWireframe = !isFigmaFlow && (userMsg.files.length > 0 || trimmed.toLowerCase().includes("wireframe"));
+
+    if (isFigmaFlow) {
+      for (let i = 0; i <= FIGMA_PROC_STEPS.length; i++) {
+        setFigmaProcIdx(i);
+        await new Promise(r => setTimeout(r, 600));
+      }
+      setFigmaProcIdx(-1);
+    } else if (isWireframe) {
+      const steps = userMsg.files.some(f => f.wireframeMode)
+        ? ["Parsing wireframe structure…", "Mapping components…", "Applying design tokens…", "Building Figma file…", "Finalizing output…"]
+        : ["Reading file data…", "Detecting layout type…", "Generating wireframe…", "Polishing UI…", "Done!"];
+      for (let i = 0; i < steps.length; i++) {
+        setProcessingStep(steps[i]);
+        await new Promise(r => setTimeout(r, 500));
+      }
+    } else {
+      await new Promise(r => setTimeout(r, 700 + Math.random() * 400));
+    }
+
+    setProcessingStep(null);
     const { text: resp, wireframe, wireType, figmaParams } = buildAiResponse(trimmed, userMsg.files, figmaUrl);
     setMessages(prev => [...prev, { role: "assistant", content: resp, wireframe, wireType, figmaParams, id: Date.now() + 1 }]);
     setLoading(false);
@@ -1256,9 +1378,20 @@ export default function AiChatPage() {
                         <path d="M12 2L13.8 8.2L20 7L15.8 12L20 17L13.8 15.8L12 22L10.2 15.8L4 17L8.2 12L4 7L10.2 8.2L12 2Z" />
                       </svg>
                     </div>
-                    <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
-                      <TypingDots />
-                    </div>
+                    {figmaProcIdx >= 0 ? (
+                      <FigmaProcessingCard stepIdx={figmaProcIdx} />
+                    ) : (
+                      <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm min-w-[180px]">
+                        {processingStep ? (
+                          <div className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.2s ease-out" }}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 inline-block" style={{ animation: "tdot 1s ease-in-out 0s infinite" }} />
+                            <span className="text-xs text-gray-500 font-medium">{processingStep}</span>
+                          </div>
+                        ) : (
+                          <TypingDots />
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
                 <div ref={messagesEndRef} />
