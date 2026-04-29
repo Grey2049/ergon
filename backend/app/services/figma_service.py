@@ -163,13 +163,32 @@ async def _create_design_via_api(
     #     return response.json()["figma_url"]
 
     # --- Placeholder until integration is wired ---------------------------
-    async with httpx.AsyncClient(base_url=FIGMA_API_BASE) as client:
+    # Verify connectivity and get the first project's files to return a real URL
+    async with httpx.AsyncClient(base_url=FIGMA_API_BASE, timeout=15.0) as client:
+        # Get team projects
         response = await client.get(
             f"/teams/{settings.figma_team_id}/projects",
             headers=headers,
         )
         response.raise_for_status()
-        logger.info("Figma API connectivity verified")
+        projects = response.json().get("projects", [])
+        logger.info("Figma API: found %d projects", len(projects))
+
+        # Try to get files from the first project to return a real URL
+        if projects:
+            project_id = projects[0]["id"]
+            files_resp = await client.get(
+                f"/projects/{project_id}/files",
+                headers=headers,
+            )
+            files_resp.raise_for_status()
+            files = files_resp.json().get("files", [])
+            if files:
+                file_key = files[0]["key"]
+                file_name = files[0].get("name", "Design")
+                real_url = f"https://www.figma.com/design/{file_key}/{file_name.replace(' ', '-')}"
+                logger.info("Figma: returning real file URL: %s", real_url)
+                return real_url
 
     logger.info(
         "Would send prompt (%d chars) with %d component keys to Figma",

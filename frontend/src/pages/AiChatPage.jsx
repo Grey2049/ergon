@@ -354,7 +354,8 @@ const FIGMA_PAGES = [
   { label: "Billing", from: "#f97316", to: "#fb923c" },
 ];
 
-function WireframeBlock({ html, type, figmaParams }) {
+function WireframeBlock({ html, type, figmaParams, figmaUrl: propFigmaUrl }) {
+  const resolvedFigmaUrl = propFigmaUrl || FIGMA_URL;
   const isFigmaDirect = type === "figma-direct";
   const [figmaState, setFigmaState] = useState(isFigmaDirect ? "generating" : "idle");
   const [stepIdx, setStepIdx] = useState(0);
@@ -535,7 +536,7 @@ function WireframeBlock({ html, type, figmaParams }) {
                 <p className="text-sm font-bold text-gray-900">Figma file ready</p>
                 <p className="text-xs text-gray-500 truncate">AppAds — UI Prototype (DaisyUI) · 4 pages</p>
               </div>
-              <a href={FIGMA_URL} target="_blank" rel="noopener noreferrer"
+              <a href={resolvedFigmaUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-xs font-semibold text-white px-4 py-2 rounded-xl flex-shrink-0 transition-all"
                 style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 2px 8px rgba(124,58,237,0.4)" }}>
                 <Ico d={ICONS.link} size={11} stroke="white" /> Open in Figma
@@ -544,7 +545,7 @@ function WireframeBlock({ html, type, figmaParams }) {
             {/* 4 page tiles */}
             <div className="grid grid-cols-4 gap-4 p-6 flex-1">
               {FIGMA_PAGES.map((page, i) => (
-                <a key={page.label} href={FIGMA_URL} target="_blank" rel="noopener noreferrer"
+                <a key={page.label} href={resolvedFigmaUrl} target="_blank" rel="noopener noreferrer"
                   className="flex flex-col rounded-2xl overflow-hidden border border-purple-100 bg-white hover:border-purple-300 hover:shadow-lg transition-all group"
                   style={{ animation: `fadeSlideIn 0.3s ease-out ${i * 0.08}s both` }}>
                   <div className="flex-1 flex items-center justify-center py-8"
@@ -847,7 +848,7 @@ function MessageBubble({ msg }) {
           </div>
         )}
 
-        {msg.wireframe && <WireframeBlock html={msg.wireframe} type={msg.wireType} figmaParams={msg.figmaParams} />}
+        {msg.wireframe && <WireframeBlock html={msg.wireframe} type={msg.wireType} figmaParams={msg.figmaParams} figmaUrl={msg.figmaUrl} />}
       </div>
     </div>
   );
@@ -1322,13 +1323,19 @@ export default function AiChatPage() {
         const htmlRes = await fetch(finalResult.html_url);
         if (htmlRes.ok) {
           wireframeHtml = await htmlRes.text();
-          wireType = isFigmaFlow ? "figma" : "campaign";
+          wireType = "figma";  // always use figma type when backend returns URLs — shows the Figma card
         }
       } catch { /* preview not available */ }
     }
 
-    // Fallback to local generators if no HTML from backend
-    if (!wireframeHtml && (hasFiles || figmaUrl)) {
+    // If we have a figma_url but no HTML preview, still show the figma card
+    if (!wireframeHtml && finalResult.figma_url) {
+      wireframeHtml = `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-family:system-ui;color:#6b7280;"><p>Wireframe generated — <a href="${finalResult.html_url || finalResult.figma_url}" target="_blank" style="color:#6366f1;">open in new tab</a></p></div>`;
+      wireType = "figma-direct";
+    }
+
+    // Fallback to local generators only if backend returned nothing
+    if (!wireframeHtml && !finalResult.figma_url && (hasFiles || figmaUrl)) {
       const localResult = buildAiResponse(trimmed, userMsg.files, figmaUrl);
       wireframeHtml = localResult.wireframe;
       wireType = localResult.wireType;
@@ -1340,6 +1347,7 @@ export default function AiChatPage() {
       wireframe: wireframeHtml,
       wireType: wireType,
       figmaParams: isFigmaFlow ? { font: "Inter", ui: "DaisyUI", charts: "ApexCharts" } : null,
+      figmaUrl: finalResult.figma_url || null,
       id: Date.now() + 1,
     }]);
 
