@@ -1,13 +1,13 @@
 {
     "version": "2.0.0",
-    "updated_at": "2026-04-28T00:00:00Z",
+    "updated_at": "2026-04-29T00:00:00Z",
     "components": [
         {
             "id": "dui-button",
             "name": "Button",
             "category": "action",
             "complexity": "atom",
-            "description": "DaisyUI button with multiple color and size variants. Supports loading state and icon slots.",
+            "description": "DaisyUI button with multiple color and size variants.",
             "tags": [
                 "button",
                 "cta",
@@ -22,49 +22,28 @@
             "variants": [
                 {
                     "name": "primary",
-                    "description": "btn-primary filled",
+                    "description": "btn-primary",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 },
                 {
                     "name": "secondary",
-                    "description": "btn-secondary filled",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "accent",
-                    "description": "btn-accent filled",
+                    "description": "btn-secondary",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 },
                 {
                     "name": "ghost",
-                    "description": "btn-ghost transparent",
+                    "description": "btn-ghost",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 },
                 {
                     "name": "outline",
-                    "description": "btn-outline bordered",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "link",
-                    "description": "btn-link text only",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "disabled",
-                    "description": "btn-disabled state",
+                    "description": "btn-outline",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
@@ -80,14 +59,14 @@
             "default_props": {
                 "label": "Button"
             },
-            "usage_hint": "Use btn-primary for main CTAs, btn-ghost for secondary actions, btn-outline for tertiary."
+            "usage_hint": "Use btn-primary for main CTAs, btn-ghost for secondary actions."
         },
         {
             "id": "dui-badge",
             "name": "Badge",
             "category": "display",
             "complexity": "atom",
-            "description": "Small status indicator or count label. Can be standalone or attached to another element.",
+            "description": "Small status indicator or count label.",
             "tags": [
                 "badge",
                 "tag",
@@ -116,22 +95,8 @@
                     "props": {}
                 },
                 {
-                    "name": "accent",
-                    "description": "badge-accent",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
                     "name": "outline",
                     "description": "badge-outline",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "ghost",
-                    "description": "badge-ghost",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
@@ -147,14 +112,13 @@
             "name": "Avatar",
             "category": "display",
             "complexity": "atom",
-            "description": "Circular or rounded user avatar with image, placeholder, or initials. Supports online indicator.",
+            "description": "Circular user avatar with image, placeholder, or initials.",
             "tags": [
                 "avatar",
                 "user",
                 "profile",
                 "image",
-                "photo",
-                "picture"
+                "photo"
             ],
             "figma_component_key": "",
             "figma_file_key": "",
@@ -175,13 +139,6 @@
                     "props": {}
                 },
                 {
-                    "name": "online",
-                    "description": "With green dot",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
                     "name": "group",
                     "description": "Stacked avatar group",
                     "figma_node_id": "",
@@ -193,160 +150,11 @@
             "usage_hint": "Use in navbars, comment threads, user lists, and profile sections."
         },
         {
-            "id": "dui-toggle",
-            "name": "Toggle",
-            "category": "input",
-            "complexity": "atom",
-            "description": "On/off switch toggle input for boolean settings.",
-            "tags": [
-                "toggle",
-                "switch",
-                "checkbox",
-                "boolean",
-                "settings",
-                "preference",
-                "on",
-                "off"
-            ],
-            "figma_component_key": "",
-            "figma_file_key": "",
-            "thumbnail_url": "",
-            "variants": [
-                {
-                    "name": "default",
-                    "description": "Standard toggle",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "primary",
-                    "description": "toggle-primary colored",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "checked",
-                    "description": "On state",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "disabled",
-                    "description": "Non-interactive",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                }
-            ],
-            "default_props": {},
-            "usage_hint": "Use for on/off settings like dark mode, notifications, feature flags."
-        },
-        {
-            "id": "dui-checkbox",
-            "name": "Checkbox",
-            "category": "input",
-            "complexity": "atom",
-            "description": "Standard checkbox input with label. Supports indeterminate state.",
-            "tags": [
-                "checkbox",
-                "check",
-                "tick",
-                "select",
-                "form",
-                "input",
-                "multi-select"
-            ],
-            "figma_component_key": "",
-            "figma_file_key": "",
-            "thumbnail_url": "",
-            "variants": [
-                {
-                    "name": "default",
-                    "description": "Unchecked",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "checked",
-                    "description": "Checked state",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "primary",
-                    "description": "checkbox-primary",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "disabled",
-                    "description": "Non-interactive",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                }
-            ],
-            "default_props": {
-                "label": "Remember me"
-            },
-            "usage_hint": "Use in forms for multi-select options, terms acceptance, filters."
-        },
-        {
-            "id": "dui-radio",
-            "name": "Radio Button",
-            "category": "input",
-            "complexity": "atom",
-            "description": "Radio button for single-select option groups.",
-            "tags": [
-                "radio",
-                "option",
-                "select",
-                "choice",
-                "form",
-                "input",
-                "single-select"
-            ],
-            "figma_component_key": "",
-            "figma_file_key": "",
-            "thumbnail_url": "",
-            "variants": [
-                {
-                    "name": "default",
-                    "description": "Unselected",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "selected",
-                    "description": "Selected state",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "primary",
-                    "description": "radio-primary",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                }
-            ],
-            "default_props": {},
-            "usage_hint": "Use for single-choice selections like payment method, plan tier."
-        },
-        {
             "id": "dui-text-input",
             "name": "Text Input",
             "category": "input",
             "complexity": "atom",
-            "description": "DaisyUI input field with label, placeholder, helper text, and validation states.",
+            "description": "DaisyUI input field with label, placeholder, and validation states.",
             "tags": [
                 "input",
                 "text",
@@ -361,13 +169,6 @@
             "figma_file_key": "",
             "thumbnail_url": "",
             "variants": [
-                {
-                    "name": "default",
-                    "description": "Empty state",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
                 {
                     "name": "bordered",
                     "description": "input-bordered",
@@ -384,14 +185,7 @@
                 },
                 {
                     "name": "error",
-                    "description": "input-error validation",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "success",
-                    "description": "input-success validation",
+                    "description": "input-error",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
@@ -415,7 +209,7 @@
             "name": "Textarea",
             "category": "input",
             "complexity": "atom",
-            "description": "Multi-line text input for longer content like descriptions or messages.",
+            "description": "Multi-line text input for descriptions or messages.",
             "tags": [
                 "textarea",
                 "text",
@@ -430,13 +224,6 @@
             "figma_file_key": "",
             "thumbnail_url": "",
             "variants": [
-                {
-                    "name": "default",
-                    "description": "Standard",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
                 {
                     "name": "bordered",
                     "description": "textarea-bordered",
@@ -455,7 +242,7 @@
             "name": "Select Dropdown",
             "category": "input",
             "complexity": "atom",
-            "description": "Dropdown select input for choosing from a list of options.",
+            "description": "Dropdown select input for choosing from a list.",
             "tags": [
                 "select",
                 "dropdown",
@@ -463,30 +250,15 @@
                 "picker",
                 "form",
                 "input",
-                "choice",
-                "combobox"
+                "choice"
             ],
             "figma_component_key": "",
             "figma_file_key": "",
             "thumbnail_url": "",
             "variants": [
                 {
-                    "name": "default",
-                    "description": "Standard select",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
                     "name": "bordered",
                     "description": "select-bordered",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "ghost",
-                    "description": "select-ghost",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
@@ -498,101 +270,53 @@
             "usage_hint": "Use for choosing from predefined options — country, category, sort order."
         },
         {
-            "id": "dui-range-slider",
-            "name": "Range Slider",
+            "id": "dui-toggle",
+            "name": "Toggle",
             "category": "input",
             "complexity": "atom",
-            "description": "Horizontal slider for selecting a numeric value within a range.",
+            "description": "On/off switch toggle for boolean settings.",
             "tags": [
-                "range",
-                "slider",
-                "input",
-                "number",
-                "volume",
-                "progress",
-                "form"
+                "toggle",
+                "switch",
+                "checkbox",
+                "boolean",
+                "settings",
+                "preference"
             ],
             "figma_component_key": "",
             "figma_file_key": "",
             "thumbnail_url": "",
             "variants": [
-                {
-                    "name": "default",
-                    "description": "Standard range",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
                 {
                     "name": "primary",
-                    "description": "range-primary",
+                    "description": "toggle-primary",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 },
                 {
-                    "name": "with-steps",
-                    "description": "Stepped range",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                }
-            ],
-            "default_props": {
-                "min": "0",
-                "max": "100"
-            },
-            "usage_hint": "Use for price filters, volume controls, or any numeric range selection."
-        },
-        {
-            "id": "dui-file-input",
-            "name": "File Input",
-            "category": "input",
-            "complexity": "atom",
-            "description": "File upload input with browse button.",
-            "tags": [
-                "file",
-                "upload",
-                "input",
-                "form",
-                "attachment",
-                "document",
-                "image"
-            ],
-            "figma_component_key": "",
-            "figma_file_key": "",
-            "thumbnail_url": "",
-            "variants": [
-                {
-                    "name": "default",
-                    "description": "Standard file input",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "bordered",
-                    "description": "file-input-bordered",
+                    "name": "checked",
+                    "description": "On state",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 }
             ],
             "default_props": {},
-            "usage_hint": "Use for file uploads — profile photos, documents, attachments."
+            "usage_hint": "Use for on/off settings like dark mode, notifications, feature flags."
         },
         {
-            "id": "dui-rating",
-            "name": "Rating",
+            "id": "dui-checkbox",
+            "name": "Checkbox",
             "category": "input",
             "complexity": "atom",
-            "description": "Star rating input for reviews and feedback.",
+            "description": "Standard checkbox input with label.",
             "tags": [
-                "rating",
-                "stars",
-                "review",
-                "feedback",
-                "score",
+                "checkbox",
+                "check",
+                "tick",
+                "select",
+                "form",
                 "input"
             ],
             "figma_component_key": "",
@@ -600,29 +324,871 @@
             "thumbnail_url": "",
             "variants": [
                 {
-                    "name": "default",
-                    "description": "5-star rating",
+                    "name": "checked",
+                    "description": "Checked state",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 },
                 {
-                    "name": "half",
-                    "description": "Half-star support",
-                    "figma_node_id": "",
-                    "thumbnail_url": "",
-                    "props": {}
-                },
-                {
-                    "name": "readonly",
-                    "description": "Display only",
+                    "name": "primary",
+                    "description": "checkbox-primary",
                     "figma_node_id": "",
                     "thumbnail_url": "",
                     "props": {}
                 }
             ],
             "default_props": {
-                "value": "3"
+                "label": "Remember me"
             },
-            "usage_hint": "Use for product reviews, feedback forms, satisfaction surveys."
+            "usage_hint": "Use in forms for multi-select options, terms acceptance, filters."
         },
+        {
+            "id": "dui-card",
+            "name": "Card",
+            "category": "display",
+            "complexity": "molecule",
+            "description": "Content container with optional image, title, body, and actions.",
+            "tags": [
+                "card",
+                "container",
+                "content",
+                "panel",
+                "tile",
+                "widget"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard card",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "compact",
+                    "description": "Compact padding",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "image-full",
+                    "description": "Full-bleed image",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use as the primary content container for any grouped information."
+        },
+        {
+            "id": "dui-stat",
+            "name": "Stat",
+            "category": "display",
+            "complexity": "molecule",
+            "description": "Stat display with title, value, and description. Supports icons and trend indicators.",
+            "tags": [
+                "stat",
+                "metric",
+                "kpi",
+                "dashboard",
+                "analytics",
+                "widget",
+                "number",
+                "value"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard stat",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "with-icon",
+                    "description": "Icon + stat",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "horizontal",
+                    "description": "Side-by-side layout",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "title": "Total Users",
+                "value": "12,345",
+                "desc": "+12% from last month"
+            },
+            "usage_hint": "Use in dashboard grids to display KPIs and summary metrics."
+        },
+        {
+            "id": "dui-alert",
+            "name": "Alert",
+            "category": "feedback",
+            "complexity": "molecule",
+            "description": "Notification banner with icon, message, and optional action buttons.",
+            "tags": [
+                "alert",
+                "notification",
+                "banner",
+                "message",
+                "warning",
+                "error",
+                "success",
+                "info",
+                "toast"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "info",
+                    "description": "alert-info",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "success",
+                    "description": "alert-success",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "warning",
+                    "description": "alert-warning",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "error",
+                    "description": "alert-error",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "message": "Something happened"
+            },
+            "usage_hint": "Use for system messages, form validation feedback, or status updates."
+        },
+        {
+            "id": "dui-modal",
+            "name": "Modal",
+            "category": "overlay",
+            "complexity": "molecule",
+            "description": "Dialog overlay with backdrop, title, body, and action buttons.",
+            "tags": [
+                "modal",
+                "dialog",
+                "popup",
+                "overlay",
+                "confirm",
+                "prompt"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard modal",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "bottom",
+                    "description": "Bottom sheet style",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for confirmations, forms, or detail views that need focus."
+        },
+        {
+            "id": "dui-tabs",
+            "name": "Tabs",
+            "category": "navigation",
+            "complexity": "molecule",
+            "description": "Horizontal tab navigation for switching between content panels.",
+            "tags": [
+                "tabs",
+                "tab",
+                "navigation",
+                "switch",
+                "panel",
+                "section"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "bordered",
+                    "description": "tabs-bordered",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "boxed",
+                    "description": "tabs-boxed",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "lifted",
+                    "description": "tabs-lifted",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for switching between related content sections on the same page."
+        },
+        {
+            "id": "dui-breadcrumbs",
+            "name": "Breadcrumbs",
+            "category": "navigation",
+            "complexity": "molecule",
+            "description": "Hierarchical navigation trail showing the current page location.",
+            "tags": [
+                "breadcrumbs",
+                "navigation",
+                "path",
+                "trail",
+                "hierarchy"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard breadcrumbs",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use at the top of pages to show navigation hierarchy."
+        },
+        {
+            "id": "dui-steps",
+            "name": "Steps",
+            "category": "navigation",
+            "complexity": "molecule",
+            "description": "Multi-step progress indicator for wizards and multi-page forms.",
+            "tags": [
+                "steps",
+                "stepper",
+                "wizard",
+                "progress",
+                "form",
+                "multi-step",
+                "flow"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "horizontal",
+                    "description": "Horizontal steps",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "vertical",
+                    "description": "Vertical steps",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for multi-step forms like checkout, onboarding, or campaign creation."
+        },
+        {
+            "id": "dui-progress",
+            "name": "Progress Bar",
+            "category": "feedback",
+            "complexity": "atom",
+            "description": "Horizontal progress indicator showing completion percentage.",
+            "tags": [
+                "progress",
+                "bar",
+                "loading",
+                "percentage",
+                "completion"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "primary",
+                    "description": "progress-primary",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "radial",
+                    "description": "Radial progress",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "value": "70"
+            },
+            "usage_hint": "Use for upload progress, task completion, or loading states."
+        },
+        {
+            "id": "dui-tooltip",
+            "name": "Tooltip",
+            "category": "overlay",
+            "complexity": "atom",
+            "description": "Small popup hint that appears on hover.",
+            "tags": [
+                "tooltip",
+                "hint",
+                "help",
+                "hover",
+                "info"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "top",
+                    "description": "Tooltip above",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "bottom",
+                    "description": "Tooltip below",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "text": "Helpful hint"
+            },
+            "usage_hint": "Use for additional context on icons, buttons, or truncated text."
+        },
+        {
+            "id": "dui-dropdown",
+            "name": "Dropdown Menu",
+            "category": "navigation",
+            "complexity": "molecule",
+            "description": "Floating menu triggered by a button click.",
+            "tags": [
+                "dropdown",
+                "menu",
+                "popover",
+                "actions",
+                "context"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard dropdown",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "hover",
+                    "description": "Open on hover",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for action menus, user menus, or filter dropdowns."
+        },
+        {
+            "id": "dui-navbar",
+            "name": "Navbar",
+            "category": "navigation",
+            "complexity": "organism",
+            "description": "Horizontal top navigation bar with logo, menu items, and actions.",
+            "tags": [
+                "navbar",
+                "header",
+                "topbar",
+                "navigation",
+                "appbar",
+                "menu"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard navbar",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "with-search",
+                    "description": "Includes search input",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use as the top-level navigation bar on every page."
+        },
+        {
+            "id": "dui-sidebar",
+            "name": "Sidebar / Drawer",
+            "category": "navigation",
+            "complexity": "organism",
+            "description": "Vertical sidebar navigation with collapsible menu items. Can be a permanent sidebar or a mobile drawer.",
+            "tags": [
+                "sidebar",
+                "drawer",
+                "nav",
+                "navigation",
+                "menu",
+                "panel"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "permanent",
+                    "description": "Always visible",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "drawer",
+                    "description": "Mobile overlay drawer",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use as the main navigation for dashboard and admin pages."
+        },
+        {
+            "id": "dui-table",
+            "name": "Table",
+            "category": "data",
+            "complexity": "organism",
+            "description": "Data table with headers, rows, and optional sorting/selection.",
+            "tags": [
+                "table",
+                "data",
+                "grid",
+                "list",
+                "sort",
+                "pagination",
+                "listing",
+                "rows",
+                "columns"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard table",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "compact",
+                    "description": "table-compact",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "zebra",
+                    "description": "table-zebra striped",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for any tabular data — user lists, orders, logs, campaigns."
+        },
+        {
+            "id": "dui-hero",
+            "name": "Hero",
+            "category": "display",
+            "complexity": "organism",
+            "description": "Full-width hero section with headline, subtext, and CTA.",
+            "tags": [
+                "hero",
+                "banner",
+                "landing",
+                "cta",
+                "headline",
+                "jumbotron"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "centered",
+                    "description": "Center-aligned",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "with-image",
+                    "description": "Image overlay",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "headline": "Welcome",
+                "subtext": "Get started today."
+            },
+            "usage_hint": "Use as the first section on landing pages."
+        },
+        {
+            "id": "dui-footer",
+            "name": "Footer",
+            "category": "navigation",
+            "complexity": "organism",
+            "description": "Page footer with links, copyright, and optional social icons.",
+            "tags": [
+                "footer",
+                "bottom",
+                "links",
+                "copyright",
+                "social"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "centered",
+                    "description": "Center-aligned",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "columns",
+                    "description": "Multi-column links",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use at the bottom of every page for links and legal info."
+        },
+        {
+            "id": "dui-form-group",
+            "name": "Form Control Group",
+            "category": "input",
+            "complexity": "molecule",
+            "description": "Grouped set of form fields with label, input, and helper text.",
+            "tags": [
+                "form",
+                "field",
+                "group",
+                "input",
+                "fieldset",
+                "section",
+                "control"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "vertical",
+                    "description": "Stacked fields",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "horizontal",
+                    "description": "Side-by-side",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use to group related form inputs under a section heading."
+        },
+        {
+            "id": "dui-collapse",
+            "name": "Collapse / Accordion",
+            "category": "display",
+            "complexity": "molecule",
+            "description": "Expandable content section with toggle header.",
+            "tags": [
+                "collapse",
+                "accordion",
+                "expand",
+                "toggle",
+                "faq",
+                "details"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "arrow",
+                    "description": "With arrow icon",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "plus",
+                    "description": "With plus/minus icon",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for FAQs, settings sections, or any collapsible content."
+        },
+        {
+            "id": "dui-carousel",
+            "name": "Carousel",
+            "category": "media",
+            "complexity": "organism",
+            "description": "Horizontal scrolling carousel for images or content cards.",
+            "tags": [
+                "carousel",
+                "slider",
+                "gallery",
+                "images",
+                "scroll",
+                "swipe"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard carousel",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "with-indicators",
+                    "description": "Dot indicators",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for image galleries, testimonials, or featured content."
+        },
+        {
+            "id": "dui-loading",
+            "name": "Loading Spinner",
+            "category": "feedback",
+            "complexity": "atom",
+            "description": "Animated loading indicator.",
+            "tags": [
+                "loading",
+                "spinner",
+                "progress",
+                "wait",
+                "skeleton"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "spinner",
+                    "description": "Spinning circle",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "dots",
+                    "description": "Bouncing dots",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "skeleton",
+                    "description": "Content placeholder",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use while content is loading or an async operation is in progress."
+        },
+        {
+            "id": "dui-dashboard-layout",
+            "name": "Dashboard Layout",
+            "category": "layout",
+            "complexity": "template",
+            "description": "Full page template with sidebar, topbar, and main content area.",
+            "tags": [
+                "dashboard",
+                "layout",
+                "shell",
+                "template",
+                "admin",
+                "page",
+                "app"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "sidebar-left",
+                    "description": "Sidebar on the left",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "sidebar-right",
+                    "description": "Sidebar on the right",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use as the base template for all dashboard/admin pages."
+        },
+        {
+            "id": "dui-landing-layout",
+            "name": "Landing Page Layout",
+            "category": "layout",
+            "complexity": "template",
+            "description": "Single-column landing page with hero, features, pricing, and footer.",
+            "tags": [
+                "landing",
+                "layout",
+                "template",
+                "page",
+                "marketing",
+                "homepage"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard landing",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use as the base template for marketing and landing pages."
+        },
+        {
+            "id": "dui-form-layout",
+            "name": "Form Page Layout",
+            "category": "layout",
+            "complexity": "template",
+            "description": "Centered form layout with card container and submit actions.",
+            "tags": [
+                "form",
+                "layout",
+                "template",
+                "page",
+                "login",
+                "register",
+                "signup",
+                "checkout"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "centered",
+                    "description": "Centered card",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "split",
+                    "description": "Image + form split",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for login, registration, checkout, and other form-centric pages."
+        }
+    ]
+}
