@@ -10,6 +10,7 @@ import CampaignDashboardPage from "./pages/CampaignDashboardPage";
 import NewCampaignPage from "./pages/NewCampaignPage";
 import AiChatPage from "./pages/AiChatPage";
 import ReportingPage from "./pages/ReportingPage";
+import BillingPage from "./pages/BillingPage";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/campaign-dashboard" element={<CampaignDashboardPage />} />
         <Route path="/campaign-dashboard/new" element={<NewCampaignPage />} />
         <Route path="/campaign-dashboard/reporting" element={<ReportingPage />} />
+        <Route path="/campaign-dashboard/billing" element={<BillingPage />} />
         <Route path="/ai-chat" element={<AiChatPage />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
