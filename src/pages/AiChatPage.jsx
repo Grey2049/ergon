@@ -418,9 +418,19 @@ function WireframeBlock({ html, type, figmaParams }) {
                   View in React
                 </a>
               )}
-              <button onClick={openFull} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
-                <Ico d={ICONS.expand} size={12} /> Open fullscreen
-              </button>
+              {type === "appads" ? (
+                <a href="/src/assets/docs/appads_wireframe.html" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
+                  <Ico d={ICONS.expand} size={12} /> Open fullscreen
+                </a>
+              ) : type === "figma" ? (
+                <a href="/campaign-dashboard" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
+                  <Ico d={ICONS.expand} size={12} /> Open fullscreen
+                </a>
+              ) : (
+                <button onClick={openFull} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
+                  <Ico d={ICONS.expand} size={12} /> Open fullscreen
+                </button>
+              )}
               {/* <button onClick={handleGenerateFigma}
                 className="flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-1.5 rounded-lg shadow-sm transition-all"
                 style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 2px 8px rgba(124,58,237,0.4)" }}>
