@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
@@ -10,6 +10,7 @@ const navItems = [
 ];
 
 export default function Sidebar({ isOpen, onClose }) {
+  const navigate = useNavigate();
   return (
     <>
       {/* Mobile overlay */}
@@ -75,6 +76,20 @@ export default function Sidebar({ isOpen, onClose }) {
             </NavLink>
           ))}
         </nav>
+
+        {/* AI Chat shortcut */}
+        <div className="px-4 pb-3">
+          <button
+            onClick={() => { onClose?.(); navigate("/ai-chat"); }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
+            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)", boxShadow: "0 2px 10px rgba(99,102,241,0.35)" }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+              <path d="M12 2L13.8 8.2L20 7L15.8 12L20 17L13.8 15.8L12 22L10.2 15.8L4 17L8.2 12L4 7L10.2 8.2L12 2Z" />
+            </svg>
+            Ergon AI Chat
+          </button>
+        </div>
 
         {/* User footer */}
         <div className="p-4 border-t border-base-200">

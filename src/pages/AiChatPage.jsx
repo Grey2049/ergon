@@ -433,7 +433,33 @@ function generateWireframeHTML(files, figmaUrl) {
 
 // ── Wireframe renderer ────────────────────────────────────────────────────
 
-function WireframeBlock({ html, type }) {
+const FIGMA_URL = "https://www.figma.com/design/6iBVr1GmTjZIh4PMBJYV55/AppAds-%E2%80%94-UI-Prototype--DaisyUI-?node-id=19-2&t=XuJeZP2vzjWrR1Fm-1";
+const FIGMA_PAGES = [
+  { label: "Dashboard",    from: "#3b82f6", to: "#6366f1" },
+  { label: "New Campaign", from: "#7c3aed", to: "#a855f7" },
+  { label: "Reporting",    from: "#0d9488", to: "#06b6d4" },
+  { label: "Billing",      from: "#f97316", to: "#fb923c" },
+];
+
+function WireframeBlock({ html, type, figmaParams }) {
+  const isFigmaDirect = type === "figma-direct";
+  const [figmaState, setFigmaState] = useState(isFigmaDirect ? "generating" : "idle");
+  const [stepIdx, setStepIdx]       = useState(0);
+
+  const steps = [
+    "Analysing wireframe structure…",
+    figmaParams?.font   ? `Applying ${figmaParams.font} typography…`   : "Extracting components & tokens…",
+    figmaParams?.ui     ? `Configuring ${figmaParams.ui} design tokens…` : "Building Figma layers…",
+    figmaParams?.charts ? `Setting up ${figmaParams.charts} components…` : "Exporting to Figma file…",
+  ];
+
+  useEffect(() => {
+    if (!isFigmaDirect) return;
+    const interval = setInterval(() => setStepIdx(i => i + 1), 600);
+    const timer    = setTimeout(() => { clearInterval(interval); setFigmaState("done"); }, 2600);
+    return () => { clearInterval(interval); clearTimeout(timer); };
+  }, [isFigmaDirect]);
+
   const openFull = () => {
     const blob = new Blob([html], { type: "text/html" });
     window.open(URL.createObjectURL(blob), "_blank");
@@ -445,12 +471,19 @@ function WireframeBlock({ html, type }) {
     a.download = `appads-${type}-output.html`;
     a.click();
   };
+  const handleGenerateFigma = () => {
+    setFigmaState("generating");
+    setStepIdx(0);
+    const interval = setInterval(() => setStepIdx(i => i + 1), 600);
+    setTimeout(() => { clearInterval(interval); setFigmaState("done"); }, 2600);
+  };
 
-  const typeLabel = { figma: "Figma → HTML", reporting: "Reporting Dashboard", campaign: "Campaign Creation", appads: "AppAds Wireframe" }[type] || type;
-  const typeColor = { figma: "text-purple-600", reporting: "text-teal-600", campaign: "text-blue-600", appads: "text-blue-700" }[type] || "text-gray-600";
+  const typeLabel = { figma: "Figma → HTML", reporting: "Reporting Dashboard", campaign: "Campaign Creation", appads: "AppAds Wireframe", "wireframe-figma": "Wireframe → Figma", "figma-direct": "Wireframe → Figma" }[type] || type;
+  const typeColor = { figma: "text-purple-600", reporting: "text-teal-600", campaign: "text-blue-600", appads: "text-blue-700", "wireframe-figma": "text-emerald-600", "figma-direct": "text-purple-600" }[type] || "text-gray-600";
 
   return (
     <div className="mt-3 w-full">
+      {/* toolbar */}
       <div className="flex items-center justify-between mb-2 px-1">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -459,17 +492,145 @@ function WireframeBlock({ html, type }) {
           <span className={`text-xs font-medium ml-1 ${typeColor}`}>{typeLabel}</span>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={download} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors px-2 py-1 rounded hover:bg-gray-100">
-            <Ico d={ICONS.download2} size={12} /> Download HTML
-          </button>
-          <button onClick={openFull} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
-            <Ico d={ICONS.expand} size={12} /> Open fullscreen
-          </button>
+          {figmaState === "idle" && (
+            <>
+              <button onClick={download} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors px-2 py-1 rounded hover:bg-gray-100">
+                <Ico d={ICONS.download2} size={12} /> Download HTML
+              </button>
+              <button onClick={openFull} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
+                <Ico d={ICONS.expand} size={12} /> Open fullscreen
+              </button>
+              <button onClick={handleGenerateFigma}
+                className="flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-1.5 rounded-lg shadow-sm transition-all"
+                style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 2px 8px rgba(124,58,237,0.4)" }}>
+                <Ico d={ICONS.figma} size={12} stroke="white" /> Generate Figma
+              </button>
+            </>
+          )}
+          {figmaState === "generating" && (
+            <span className="flex items-center gap-1.5 text-xs font-medium text-purple-600 px-3 py-1.5 rounded-lg bg-purple-50 border border-purple-200">
+              <svg className="animate-spin" width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              Generating Figma…
+            </span>
+          )}
+          {figmaState === "done" && (
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200">
+              <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><path d="M5 13l4 4L19 7"/></svg>
+              Figma ready
+            </span>
+          )}
         </div>
       </div>
-      <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
-        <iframe srcDoc={html} sandbox="allow-same-origin allow-scripts" title="Generated output"
-          style={{ width: "100%", height: 500, display: "block", border: "none" }} />
+
+      {/* body — iframe OR generating overlay OR figma result */}
+      <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-md" style={{ minHeight: 500 }}>
+
+        {figmaState === "idle" && (
+          <iframe srcDoc={html} sandbox="allow-same-origin allow-scripts" title="Generated output"
+            style={{ width: "100%", height: 500, display: "block", border: "none" }} />
+        )}
+
+        {figmaState === "generating" && (
+          <div className="flex flex-col items-center justify-center gap-6 h-full"
+            style={{ minHeight: 500, background: "linear-gradient(135deg,#1e1b4b 0%,#2e1065 50%,#1e1b4b 100%)" }}>
+            {/* animated rings */}
+            <div className="relative flex items-center justify-center" style={{ width: 96, height: 96 }}>
+              <div className="absolute inset-0 rounded-full border-2 border-purple-400/30" style={{ animation: "ping 1.4s ease-out infinite" }} />
+              <div className="absolute inset-2 rounded-full border-2 border-violet-400/40" style={{ animation: "ping 1.4s ease-out 0.3s infinite" }} />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center"
+                style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 0 32px rgba(167,85,247,0.6)" }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8">
+                  <path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/>
+                  <path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/>
+                  <path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/>
+                  <path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/>
+                  <path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/>
+                </svg>
+              </div>
+            </div>
+            {/* steps */}
+            <div className="flex flex-col items-center gap-2">
+              {steps.map((s, i) => (
+                <div key={i} className="flex items-center gap-2 transition-all duration-300"
+                  style={{ opacity: i <= stepIdx ? 1 : 0.25 }}>
+                  <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: i < stepIdx ? "#10b981" : i === stepIdx ? "#a855f7" : "#374151" }}>
+                    {i < stepIdx
+                      ? <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M5 13l4 4L19 7"/></svg>
+                      : i === stepIdx
+                      ? <div style={{ width: 6, height: 6, borderRadius: "50%", background: "white", animation: "pulse 1s ease-in-out infinite" }} />
+                      : <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#6b7280" }} />
+                    }
+                  </div>
+                  <span className="text-xs font-medium" style={{ color: i <= stepIdx ? "#e9d5ff" : "#6b7280" }}>{s}</span>
+                </div>
+              ))}
+            </div>
+            {/* param badges */}
+            {figmaParams && (
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                {[
+                  { icon: "T", label: figmaParams.font },
+                  { icon: "◈", label: figmaParams.ui },
+                  ...(figmaParams.charts ? [{ icon: "↗", label: figmaParams.charts }] : []),
+                ].map(({ icon, label }) => (
+                  <span key={label} style={{ background: "rgba(167,85,247,0.15)", border: "1px solid rgba(167,85,247,0.3)", borderRadius: 8, padding: "3px 10px", fontSize: 11, color: "#e9d5ff", display: "flex", alignItems: "center", gap: 5 }}>
+                    <span style={{ opacity: 0.7, fontSize: 10 }}>{icon}</span>{label}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {figmaState === "done" && (
+          <div className="flex flex-col" style={{ minHeight: 500, background: "linear-gradient(135deg,#faf5ff,#f5f3ff)" }}>
+            {/* header */}
+            <div className="flex items-center gap-3 px-6 py-5 border-b border-purple-100">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 4px 12px rgba(124,58,237,0.4)" }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8">
+                  <path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/>
+                  <path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/>
+                  <path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/>
+                  <path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/>
+                  <path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/>
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-gray-900">Figma file ready</p>
+                <p className="text-xs text-gray-500 truncate">AppAds — UI Prototype (DaisyUI) · 4 pages</p>
+              </div>
+              <a href={FIGMA_URL} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-xs font-semibold text-white px-4 py-2 rounded-xl flex-shrink-0 transition-all"
+                style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 2px 8px rgba(124,58,237,0.4)" }}>
+                <Ico d={ICONS.link} size={11} stroke="white" /> Open in Figma
+              </a>
+            </div>
+            {/* 4 page tiles */}
+            <div className="grid grid-cols-4 gap-4 p-6 flex-1">
+              {FIGMA_PAGES.map((page, i) => (
+                <a key={page.label} href={FIGMA_URL} target="_blank" rel="noopener noreferrer"
+                  className="flex flex-col rounded-2xl overflow-hidden border border-purple-100 bg-white hover:border-purple-300 hover:shadow-lg transition-all group"
+                  style={{ animation: `fadeSlideIn 0.3s ease-out ${i * 0.08}s both` }}>
+                  <div className="flex-1 flex items-center justify-center py-8"
+                    style={{ background: `linear-gradient(135deg,${page.from},${page.to})` }}>
+                    <svg width="32" height="32" fill="none" stroke="white" strokeWidth="1.4" viewBox="0 0 24 24" opacity="0.9">
+                      <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                      <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                    </svg>
+                  </div>
+                  <div className="px-3 py-2.5 border-t border-purple-50">
+                    <p className="text-xs font-semibold text-gray-800 group-hover:text-purple-700 transition-colors">{page.label}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">Page {i + 1}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -489,6 +650,21 @@ const SUGGESTIONS = [
 
 function buildAiResponse(text, files, figmaUrl) {
   const lower = text.toLowerCase();
+
+  if (files.some(f => f.wireframeMode)) {
+    const names = files.map(f => `**${f.name}**`).join(", ");
+    const font   = lower.includes("inter") ? "Inter" : lower.includes("poppins") ? "Poppins" : lower.includes("roboto") ? "Roboto" : "Inter";
+    const ui     = lower.includes("daisy") ? "DaisyUI" : lower.includes("material") ? "Material UI" : lower.includes("chakra") ? "Chakra UI" : lower.includes("ant") ? "Ant Design" : "DaisyUI";
+    const charts = lower.includes("apex") ? "Apex Charts" : lower.includes("recharts") ? "Recharts" : lower.includes("chart.js") ? "Chart.js" : lower.includes("d3") ? "D3.js" : null;
+    const figmaParams = { font, ui, charts };
+    const chartLine = charts ? `\n- **Charts:** ${charts}` : "";
+    return {
+      text: `I've analysed your wireframe ${names}.\n\n**Design system applied:**\n- **Font:** ${font}\n- **UI Library:** ${ui}${chartLine}\n- Layout structure & component hierarchy\n- Spacing & sizing tokens\n\nGenerating your Figma file now…`,
+      wireframe: "__figma_direct__",
+      wireType: "figma-direct",
+      figmaParams,
+    };
+  }
 
   if (figmaUrl || files.some(f => f.figmaMode || f.name?.toLowerCase().endsWith(".fig"))) {
     const { html, type } = generateWireframeHTML(files, figmaUrl);
@@ -613,8 +789,10 @@ function MessageBubble({ msg }) {
         {msg.files?.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-1">
             {msg.files.map((f, i) => (
-              <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-xl text-xs text-gray-600 shadow-sm">
-                {f.figmaMode
+              <div key={i} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs shadow-sm border ${f.wireframeMode ? "bg-emerald-50 border-emerald-200 text-emerald-700" : f.figmaMode ? "bg-purple-50 border-purple-200 text-purple-700" : "bg-white border-gray-200 text-gray-600"}`}>
+                {f.wireframeMode
+                  ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                  : f.figmaMode
                   ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a259ff" strokeWidth="2"><path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/><path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/><path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/></svg>
                   : <Ico d={ICONS.file[0]} size={12} />
                 }
@@ -641,7 +819,7 @@ function MessageBubble({ msg }) {
           </div>
         )}
 
-        {msg.wireframe && <WireframeBlock html={msg.wireframe} type={msg.wireType} />}
+        {msg.wireframe && <WireframeBlock html={msg.wireframe} type={msg.wireType} figmaParams={msg.figmaParams} />}
       </div>
     </div>
   );
@@ -802,8 +980,10 @@ function ChatBox({ input, setInput, files, setFiles, onSend, onKeyDown, fileInpu
       {files.length > 0 && (
         <div className="flex flex-wrap gap-1.5 px-4 pt-3">
           {files.map((f, i) => (
-            <div key={i} className={`flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-lg text-xs border ${f.figmaMode ? "bg-purple-50 border-purple-200 text-purple-700" : "bg-gray-50 border-gray-200 text-gray-600"}`}>
-              {f.figmaMode
+            <div key={i} className={`flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-lg text-xs border ${f.wireframeMode ? "bg-emerald-50 border-emerald-200 text-emerald-700" : f.figmaMode ? "bg-purple-50 border-purple-200 text-purple-700" : "bg-gray-50 border-gray-200 text-gray-600"}`}>
+              {f.wireframeMode
+                ? <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                : f.figmaMode
                 ? <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a259ff" strokeWidth="2"><path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/><path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/><path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/></svg>
                 : <Ico d={ICONS.file[0]} size={11} />
               }
@@ -840,7 +1020,18 @@ function ChatBox({ input, setInput, files, setFiles, onSend, onKeyDown, fileInpu
               <path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/>
             </svg>
           </button>
-          {files.some(f => !f.figmaMode) && (
+          {files.some(f => f.wireframeMode) && (
+            <button
+              onClick={() => !loading && onSend("Generate Figma.")}
+              disabled={loading}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 disabled:opacity-50 ml-1"
+              style={{ background: "linear-gradient(135deg, #7c3aed, #a855f7)", boxShadow: "0 2px 8px rgba(124,58,237,0.35)" }}
+            >
+              <Ico d={ICONS.figma} size={12} stroke="white" />
+              Generate Figma
+            </button>
+          )}
+          {files.some(f => !f.figmaMode && !f.wireframeMode) && (
             <button
               onClick={() => !loading && onSend("Generate wireframe.")}
               disabled={loading}
@@ -880,6 +1071,7 @@ function ChatBox({ input, setInput, files, setFiles, onSend, onKeyDown, fileInpu
 // ── Main page ─────────────────────────────────────────────────────────────
 
 export default function AiChatPage() {
+
   const [messages, setMessages]     = useState([]);
   const [input, setInput]           = useState("");
   const [files, setFiles]           = useState([]);
@@ -887,10 +1079,11 @@ export default function AiChatPage() {
   const [activeNav, setActiveNav]   = useState("chat");
   const [showFigmaModal, setShowFigmaModal] = useState(false);
 
-  const fileInputRef    = useRef(null);
-  const figmaInputRef   = useRef(null);
-  const messagesEndRef  = useRef(null);
-  const textareaRef     = useRef(null);
+  const fileInputRef        = useRef(null);
+  const figmaInputRef       = useRef(null);
+  const wireframeInputRef   = useRef(null);
+  const messagesEndRef      = useRef(null);
+  const textareaRef         = useRef(null);
 
   const hasMessages = messages.length > 0;
 
@@ -915,6 +1108,21 @@ export default function AiChatPage() {
     e.target.value = "";
   };
 
+  const handleWireframeFiles = (e) => {
+    Array.from(e.target.files).forEach((file) => {
+      const reader = new FileReader();
+      const isImage = file.type.startsWith("image/");
+      reader.onload = (ev) =>
+        setFiles(prev => [...prev, {
+          name: file.name, size: file.size, type: file.type,
+          content: ev.target.result, wireframeMode: true, isImage,
+        }]);
+      if (isImage) reader.readAsDataURL(file);
+      else reader.readAsText(file);
+    });
+    e.target.value = "";
+  };
+
   const send = async (text = input, figmaUrl = null) => {
     const trimmed = text.trim();
     if (!trimmed && files.length === 0 && !figmaUrl) return;
@@ -922,8 +1130,8 @@ export default function AiChatPage() {
     setMessages(prev => [...prev, userMsg]);
     setInput(""); setFiles([]); setLoading(true);
     await new Promise(r => setTimeout(r, 700 + Math.random() * 500));
-    const { text: resp, wireframe, wireType } = buildAiResponse(trimmed, userMsg.files, figmaUrl);
-    setMessages(prev => [...prev, { role: "assistant", content: resp, wireframe, wireType, id: Date.now() + 1 }]);
+    const { text: resp, wireframe, wireType, figmaParams } = buildAiResponse(trimmed, userMsg.files, figmaUrl);
+    setMessages(prev => [...prev, { role: "assistant", content: resp, wireframe, wireType, figmaParams, id: Date.now() + 1 }]);
     setLoading(false);
   };
 
@@ -951,6 +1159,14 @@ export default function AiChatPage() {
       {/* Sidebar */}
       <aside className="w-14 flex flex-col items-center py-4 gap-1 shrink-0 z-10"
         style={{ borderRight: "1px solid rgba(0,0,0,0.07)", background: "rgba(255,255,255,0.4)", backdropFilter: "blur(8px)" }}>
+        {/* Back to Dashboard */}
+        <button onClick={() => window.location.reload()} title="Refresh chat"
+          className="w-9 h-9 flex items-center justify-center rounded-xl mb-2 transition-all duration-150 text-gray-400 hover:text-indigo-600 hover:bg-white"
+          style={{ boxShadow: "none" }}>
+          <svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+        </button>
         <div className="flex flex-col items-center gap-1 flex-1">
           {navItems.map(({ id, d, tip }) => (
             <button key={id} onClick={() => setActiveNav(id)} title={tip}
@@ -1048,7 +1264,7 @@ export default function AiChatPage() {
             </p>
 
             {/* Upload action cards */}
-            <div className="w-full max-w-[560px] grid grid-cols-2 gap-4 mb-6">
+            <div className="w-full max-w-[840px] grid grid-cols-3 gap-4 mb-6">
               <UploadCard
                 icon={<Ico d={ICONS.prd} size={20} stroke="white" />}
                 gradient="linear-gradient(135deg, #3b82f6, #6366f1)"
@@ -1058,6 +1274,16 @@ export default function AiChatPage() {
                 accent="#6366f1"
                 features={[".txt", ".csv", ".json", ".docx"]}
                 onClick={() => fileInputRef.current?.click()}
+              />
+              <UploadCard
+                icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>}
+                gradient="linear-gradient(135deg, #10b981, #14b8a6)"
+                title="Wireframe → Figma"
+                desc="Upload HTML wireframes or images and generate Figma-ready design specs."
+                badge="Beta"
+                accent="#10b981"
+                features={[".html", ".png", ".jpg"]}
+                onClick={() => wireframeInputRef.current?.click()}
               />
               <UploadCard
                 icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/><path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/><path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/></svg>}
@@ -1129,6 +1355,11 @@ export default function AiChatPage() {
           </div>
         )}
       </div>
+
+      {/* Wireframe → Figma hidden input */}
+      <input ref={wireframeInputRef} type="file" multiple
+        accept=".html,.htm,.txt,.png,.jpg,.jpeg,.gif,.webp,.svg"
+        className="hidden" onChange={handleWireframeFiles} />
 
       {/* Figma URL modal */}
       {showFigmaModal && (
