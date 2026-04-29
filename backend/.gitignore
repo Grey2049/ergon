@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certs / keys
+cert/
+*.p8
+*.pem
+
+# uv
+uv.lock
+
+# Local CDN (dev only)
+.local_cdn/

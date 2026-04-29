@@ -1,0 +1,628 @@
+{
+    "version": "2.0.0",
+    "updated_at": "2026-04-28T00:00:00Z",
+    "components": [
+        {
+            "id": "dui-button",
+            "name": "Button",
+            "category": "action",
+            "complexity": "atom",
+            "description": "DaisyUI button with multiple color and size variants. Supports loading state and icon slots.",
+            "tags": [
+                "button",
+                "cta",
+                "action",
+                "submit",
+                "click",
+                "btn"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "primary",
+                    "description": "btn-primary filled",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "secondary",
+                    "description": "btn-secondary filled",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "accent",
+                    "description": "btn-accent filled",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "ghost",
+                    "description": "btn-ghost transparent",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "outline",
+                    "description": "btn-outline bordered",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "link",
+                    "description": "btn-link text only",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "disabled",
+                    "description": "btn-disabled state",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "loading",
+                    "description": "With spinner",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "label": "Button"
+            },
+            "usage_hint": "Use btn-primary for main CTAs, btn-ghost for secondary actions, btn-outline for tertiary."
+        },
+        {
+            "id": "dui-badge",
+            "name": "Badge",
+            "category": "display",
+            "complexity": "atom",
+            "description": "Small status indicator or count label. Can be standalone or attached to another element.",
+            "tags": [
+                "badge",
+                "tag",
+                "label",
+                "status",
+                "count",
+                "indicator",
+                "chip"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "primary",
+                    "description": "badge-primary",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "secondary",
+                    "description": "badge-secondary",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "accent",
+                    "description": "badge-accent",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "outline",
+                    "description": "badge-outline",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "ghost",
+                    "description": "badge-ghost",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "label": "New"
+            },
+            "usage_hint": "Use for status labels, notification counts, or category tags."
+        },
+        {
+            "id": "dui-avatar",
+            "name": "Avatar",
+            "category": "display",
+            "complexity": "atom",
+            "description": "Circular or rounded user avatar with image, placeholder, or initials. Supports online indicator.",
+            "tags": [
+                "avatar",
+                "user",
+                "profile",
+                "image",
+                "photo",
+                "picture"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "image",
+                    "description": "With photo",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "placeholder",
+                    "description": "Initials fallback",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "online",
+                    "description": "With green dot",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "group",
+                    "description": "Stacked avatar group",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use in navbars, comment threads, user lists, and profile sections."
+        },
+        {
+            "id": "dui-toggle",
+            "name": "Toggle",
+            "category": "input",
+            "complexity": "atom",
+            "description": "On/off switch toggle input for boolean settings.",
+            "tags": [
+                "toggle",
+                "switch",
+                "checkbox",
+                "boolean",
+                "settings",
+                "preference",
+                "on",
+                "off"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard toggle",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "primary",
+                    "description": "toggle-primary colored",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "checked",
+                    "description": "On state",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "disabled",
+                    "description": "Non-interactive",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for on/off settings like dark mode, notifications, feature flags."
+        },
+        {
+            "id": "dui-checkbox",
+            "name": "Checkbox",
+            "category": "input",
+            "complexity": "atom",
+            "description": "Standard checkbox input with label. Supports indeterminate state.",
+            "tags": [
+                "checkbox",
+                "check",
+                "tick",
+                "select",
+                "form",
+                "input",
+                "multi-select"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Unchecked",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "checked",
+                    "description": "Checked state",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "primary",
+                    "description": "checkbox-primary",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "disabled",
+                    "description": "Non-interactive",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "label": "Remember me"
+            },
+            "usage_hint": "Use in forms for multi-select options, terms acceptance, filters."
+        },
+        {
+            "id": "dui-radio",
+            "name": "Radio Button",
+            "category": "input",
+            "complexity": "atom",
+            "description": "Radio button for single-select option groups.",
+            "tags": [
+                "radio",
+                "option",
+                "select",
+                "choice",
+                "form",
+                "input",
+                "single-select"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Unselected",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "selected",
+                    "description": "Selected state",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "primary",
+                    "description": "radio-primary",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for single-choice selections like payment method, plan tier."
+        },
+        {
+            "id": "dui-text-input",
+            "name": "Text Input",
+            "category": "input",
+            "complexity": "atom",
+            "description": "DaisyUI input field with label, placeholder, helper text, and validation states.",
+            "tags": [
+                "input",
+                "text",
+                "field",
+                "form",
+                "textbox",
+                "email",
+                "password",
+                "search"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Empty state",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "bordered",
+                    "description": "input-bordered",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "ghost",
+                    "description": "input-ghost",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "error",
+                    "description": "input-error validation",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "success",
+                    "description": "input-success validation",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "disabled",
+                    "description": "Non-interactive",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "label": "Label",
+                "placeholder": "Type here..."
+            },
+            "usage_hint": "Use for any single-line text entry — name, email, search, password."
+        },
+        {
+            "id": "dui-textarea",
+            "name": "Textarea",
+            "category": "input",
+            "complexity": "atom",
+            "description": "Multi-line text input for longer content like descriptions or messages.",
+            "tags": [
+                "textarea",
+                "text",
+                "multiline",
+                "form",
+                "input",
+                "description",
+                "message",
+                "comment"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "bordered",
+                    "description": "textarea-bordered",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "placeholder": "Write your message..."
+            },
+            "usage_hint": "Use for multi-line input — descriptions, comments, feedback forms."
+        },
+        {
+            "id": "dui-select",
+            "name": "Select Dropdown",
+            "category": "input",
+            "complexity": "atom",
+            "description": "Dropdown select input for choosing from a list of options.",
+            "tags": [
+                "select",
+                "dropdown",
+                "option",
+                "picker",
+                "form",
+                "input",
+                "choice",
+                "combobox"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard select",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "bordered",
+                    "description": "select-bordered",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "ghost",
+                    "description": "select-ghost",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "placeholder": "Pick one"
+            },
+            "usage_hint": "Use for choosing from predefined options — country, category, sort order."
+        },
+        {
+            "id": "dui-range-slider",
+            "name": "Range Slider",
+            "category": "input",
+            "complexity": "atom",
+            "description": "Horizontal slider for selecting a numeric value within a range.",
+            "tags": [
+                "range",
+                "slider",
+                "input",
+                "number",
+                "volume",
+                "progress",
+                "form"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard range",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "primary",
+                    "description": "range-primary",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "with-steps",
+                    "description": "Stepped range",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "min": "0",
+                "max": "100"
+            },
+            "usage_hint": "Use for price filters, volume controls, or any numeric range selection."
+        },
+        {
+            "id": "dui-file-input",
+            "name": "File Input",
+            "category": "input",
+            "complexity": "atom",
+            "description": "File upload input with browse button.",
+            "tags": [
+                "file",
+                "upload",
+                "input",
+                "form",
+                "attachment",
+                "document",
+                "image"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "Standard file input",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "bordered",
+                    "description": "file-input-bordered",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {},
+            "usage_hint": "Use for file uploads — profile photos, documents, attachments."
+        },
+        {
+            "id": "dui-rating",
+            "name": "Rating",
+            "category": "input",
+            "complexity": "atom",
+            "description": "Star rating input for reviews and feedback.",
+            "tags": [
+                "rating",
+                "stars",
+                "review",
+                "feedback",
+                "score",
+                "input"
+            ],
+            "figma_component_key": "",
+            "figma_file_key": "",
+            "thumbnail_url": "",
+            "variants": [
+                {
+                    "name": "default",
+                    "description": "5-star rating",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "half",
+                    "description": "Half-star support",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                },
+                {
+                    "name": "readonly",
+                    "description": "Display only",
+                    "figma_node_id": "",
+                    "thumbnail_url": "",
+                    "props": {}
+                }
+            ],
+            "default_props": {
+                "value": "3"
+            },
+            "usage_hint": "Use for product reviews, feedback forms, satisfaction surveys."
+        },

@@ -1,0 +1,481 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary)}
+.shell{display:flex;height:100%;min-height:600px}
+.sidebar{width:200px;flex-shrink:0;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:16px 0;display:flex;flex-direction:column;gap:2px}
+.logo{padding:8px 16px 16px;font-size:15px;font-weight:500;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:8px}
+.logo span{color:#378ADD}
+.nav-item{padding:8px 16px;font-size:13px;cursor:pointer;color:var(--color-text-secondary);border-radius:0;display:flex;align-items:center;gap:8px;transition:background 0.1s}
+.nav-item:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nav-item.active{background:var(--color-background-info);color:#185FA5;font-weight:500}
+.nav-icon{width:14px;height:14px;opacity:0.6;flex-shrink:0}
+.main{flex:1;overflow:auto;background:var(--color-background-secondary)}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 20px;height:48px;display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-size:14px;font-weight:500}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.btn-primary{background:#185FA5;color:#fff;border:none;padding:6px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;font-weight:500}
+.btn-ghost{background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);padding:6px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer}
+.content{padding:20px}
+.screen{display:none}
+.screen.active{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px}
+.stat-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.stat-val{font-size:20px;font-weight:500}
+.stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.table-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden}
+.table-header{padding:12px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between}
+.table-header-title{font-size:13px;font-weight:500}
+.filters{display:flex;gap:6px}
+.chip{font-size:11px;padding:3px 10px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer}
+.chip.active{background:#E6F1FB;color:#185FA5;border-color:#B5D4F4}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:8px 12px;text-align:left;color:var(--color-text-secondary);font-weight:500;font-size:11px;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+td{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-background-secondary)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500}
+.badge-active{background:#EAF3DE;color:#3B6D11}
+.badge-paused{background:#F1EFE8;color:#5F5E5A}
+.badge-draft{background:#FAEEDA;color:#854F0B}
+.section-title{font-size:13px;font-weight:500;margin-bottom:12px;color:var(--color-text-primary)}
+.form-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:20px;margin-bottom:14px}
+.form-row{margin-bottom:14px}
+.form-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px}
+.form-input{width:100%;padding:7px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary)}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.steps{display:flex;gap:0;margin-bottom:20px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden}
+.step{flex:1;padding:10px;text-align:center;font-size:11px;color:var(--color-text-secondary);cursor:pointer;border-right:0.5px solid var(--color-border-tertiary);position:relative}
+.step:last-child{border-right:none}
+.step.done{background:var(--color-background-success);color:#3B6D11}
+.step.current{background:#185FA5;color:#fff;font-weight:500}
+.step-num{display:block;font-size:10px;opacity:0.7;margin-bottom:2px}
+.keyword-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ktag{background:#E6F1FB;color:#185FA5;padding:4px 10px;border-radius:20px;font-size:11px;display:flex;align-items:center;gap:5px}
+.ktag-x{cursor:pointer;opacity:0.6}
+.chart-area{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px;margin-bottom:14px}
+.chart-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:8px}
+.bar-chart{display:flex;align-items:flex-end;gap:4px;height:80px}
+.bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;background:#B5D4F4;position:relative;cursor:pointer;transition:background 0.1s}
+.bar:hover{background:#378ADD}
+.bar.hi{background:#185FA5}
+.bar-label{font-size:9px;text-align:center;color:var(--color-text-tertiary);margin-top:3px}
+.metric-tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.mtab{padding:7px 14px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+.mtab.active{color:#185FA5;border-bottom-color:#185FA5;font-weight:500}
+.mini-stat{display:inline-flex;flex-direction:column;padding:8px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+.mini-stat-l{font-size:10px;color:var(--color-text-secondary)}
+.mini-stat-v{font-size:16px;font-weight:500}
+.row-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.drill-table{margin-top:14px}
+.app-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:6px}
+.app-icon{width:36px;height:36px;border-radius:8px;background:#B5D4F4;display:flex;align-items:center;justify-content:center;font-size:10px;color:#185FA5;font-weight:500;flex-shrink:0}
+.app-meta{flex:1}
+.app-name{font-size:13px;font-weight:500}
+.app-cat{font-size:11px;color:var(--color-text-secondary)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.toggle{width:32px;height:18px;border-radius:20px;background:#ccc;position:relative;cursor:pointer;flex-shrink:0}
+.toggle.on{background:#185FA5}
+.toggle::after{content:'';position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left 0.15s}
+.toggle.on::after{left:16px}
+.budget-display{display:flex;align-items:baseline;gap:4px;margin:6px 0}
+.budget-num{font-size:22px;font-weight:500;color:#185FA5}
+.budget-lbl{font-size:12px;color:var(--color-text-secondary)}
+.progress-bar{height:6px;background:var(--color-background-tertiary);border-radius:3px;margin-top:6px;overflow:hidden}
+.progress-fill{height:100%;background:#185FA5;border-radius:3px}
+.spend-warn{height:100%;background:#EF9F27;border-radius:3px}
+</style>
+
+<!-- <h2 class="sr-only">AppAds wireframe — interactive dashboard, campaign creation, and reporting screens</h2> -->
+
+<div class="shell">
+  <div class="sidebar">
+    <div class="logo"><span>App</span>Ads</div>
+    <div class="nav-item active" onclick="show('dashboard',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="show('create',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      New campaign
+    </div>
+    <div class="nav-item" onclick="show('reporting',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 12l4-4 3 3 4-5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      Reporting
+    </div>
+    <div class="nav-item" onclick="show('billing',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="3" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M1 7h14" stroke="currentColor" stroke-width="1.2"/></svg>
+      Billing
+    </div>
+    <div style="margin-top:auto;padding:12px 16px;border-top:0.5px solid var(--color-border-tertiary)">
+      <div style="font-size:11px;color:var(--color-text-tertiary)">Acme Apps Inc.</div>
+      <div style="font-size:11px;color:#185FA5;margin-top:2px;cursor:pointer">Settings</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="screen active">
+      <div class="topbar">
+        <span class="topbar-title">Campaigns</span>
+        <div class="topbar-actions">
+          <select style="font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)">
+            <option>Last 30 days</option><option>Last 7 days</option><option>Today</option>
+          </select>
+          <button class="btn-primary" onclick="show('create',document.querySelector('.nav-item:nth-child(3)'))">+ New campaign</button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Total spend</div><div class="stat-val">$8,240</div><div class="stat-sub">+12% vs prev period</div></div>
+          <div class="stat-card"><div class="stat-label">Impressions</div><div class="stat-val">1.2M</div><div class="stat-sub">TTR 3.4%</div></div>
+          <div class="stat-card"><div class="stat-label">Taps</div><div class="stat-val">41,100</div><div class="stat-sub">CR 6.8%</div></div>
+          <div class="stat-card"><div class="stat-label">Installs</div><div class="stat-val">2,795</div><div class="stat-sub">avg CPI $2.95</div></div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header">
+            <span class="table-header-title">All campaigns</span>
+            <div class="filters">
+              <span class="chip active">All</span>
+              <span class="chip">Active</span>
+              <span class="chip">Paused</span>
+              <span class="chip">Draft</span>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Campaign</th><th>Status</th><th>Budget / day</th><th>Spend</th><th>Impr.</th><th>Taps</th><th>Installs</th><th>CPI</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div style="font-weight:500">TaskFlow — Brand</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · US, CA, GB</div></td>
+                <td><span class="badge badge-active">Active</span></td>
+                <td>$50</td><td>$1,840</td><td>320K</td><td>11,200</td><td>760</td><td>$2.42</td>
+                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Edit</span></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:500">TaskFlow — Competitor KW</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · US</div></td>
+                <td><span class="badge badge-active">Active</span></td>
+                <td>$30</td><td>$920</td><td>140K</td><td>4,900</td><td>290</td><td>$3.17</td>
+                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Edit</span></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:500">MoodTrack — Discovery</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · AU, NZ</div></td>
+                <td><span class="badge badge-paused">Paused</span></td>
+                <td>$20</td><td>$3,100</td><td>580K</td><td>19,300</td><td>1,240</td><td>$2.50</td>
+                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Edit</span></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:500">MoodTrack — Search Match</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · US</div></td>
+                <td><span class="badge badge-draft">Draft</span></td>
+                <td>$15</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Launch</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATE CAMPAIGN -->
+    <div id="create" class="screen">
+      <div class="topbar">
+        <span class="topbar-title">New campaign</span>
+        <div class="topbar-actions">
+          <button class="btn-ghost">Save draft</button>
+          <button class="btn-primary">Launch campaign</button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="steps">
+          <div class="step done"><span class="step-num">01</span>App</div>
+          <div class="step current"><span class="step-num">02</span>Campaign</div>
+          <div class="step"><span class="step-num">03</span>Ad group</div>
+          <div class="step"><span class="step-num">04</span>Keywords</div>
+          <div class="step"><span class="step-num">05</span>Creative</div>
+        </div>
+
+        <div class="form-card">
+          <div class="section-title">Campaign settings</div>
+          <div class="form-row">
+            <div class="form-label">Campaign name</div>
+            <input class="form-input" type="text" placeholder="e.g. TaskFlow — Brand US" value="TaskFlow — Brand US">
+          </div>
+          <div class="form-row-2">
+            <div class="form-row" style="margin-bottom:0">
+              <div class="form-label">Daily budget</div>
+              <input class="form-input" type="text" placeholder="$" value="$50.00">
+            </div>
+            <div class="form-row" style="margin-bottom:0">
+              <div class="form-label">Total budget (optional)</div>
+              <input class="form-input" type="text" placeholder="No limit">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="section-title">Targeting</div>
+          <div class="form-row">
+            <div class="form-label">Countries / regions</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+              <span class="ktag">United States <span class="ktag-x">×</span></span>
+              <span class="ktag">Canada <span class="ktag-x">×</span></span>
+              <span class="ktag">United Kingdom <span class="ktag-x">×</span></span>
+              <span style="font-size:11px;color:#185FA5;cursor:pointer;align-self:center">+ Add country</span>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div>
+              <div class="form-label">Device</div>
+              <select class="form-input" style="padding:7px 10px">
+                <option>iPhone + iPad</option><option>iPhone only</option><option>iPad only</option>
+              </select>
+            </div>
+            <div>
+              <div class="form-label">Age filter</div>
+              <select class="form-input" style="padding:7px 10px">
+                <option>All ages</option><option>18+</option><option>25+</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2" style="margin-bottom:0">
+            <div>
+              <div class="form-label">Start date</div>
+              <input class="form-input" type="text" value="Apr 29, 2026">
+            </div>
+            <div>
+              <div class="form-label">End date (optional)</div>
+              <input class="form-input" type="text" placeholder="No end date">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="section-title">Ad group — Max CPT bid</div>
+          <div class="form-row-2">
+            <div>
+              <div class="form-label">Max CPT bid</div>
+              <input class="form-input" type="text" value="$0.85">
+            </div>
+            <div>
+              <div class="form-label">Search match</div>
+              <select class="form-input" style="padding:7px 10px">
+                <option>Broad</option><option>Exact</option><option selected>Auto</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:0">
+            <div class="form-label">Keywords</div>
+            <input class="form-input" type="text" placeholder="Type a keyword and press Enter…">
+            <div class="keyword-tags">
+              <span class="ktag">task manager <span class="ktag-x">×</span></span>
+              <span class="ktag">to do list app <span class="ktag-x">×</span></span>
+              <span class="ktag">productivity app <span class="ktag-x">×</span></span>
+              <span class="ktag">taskflow <span class="ktag-x">×</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="section-title">Creative preview</div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:240px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;flex-shrink:0">
+              <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Search result</div>
+              <div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)">
+                <div style="width:40px;height:40px;border-radius:9px;background:#B5D4F4;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#185FA5;font-weight:500">TF</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:12px;font-weight:500">TaskFlow</div>
+                  <div style="font-size:10px;color:var(--color-text-secondary)">Smart task & project planner</div>
+                  <div style="font-size:9px;color:var(--color-text-tertiary);margin-top:2px">Sponsored · Productivity</div>
+                </div>
+                <div style="font-size:10px;background:#185FA5;color:#fff;padding:4px 8px;border-radius:20px;flex-shrink:0">Get</div>
+              </div>
+            </div>
+            <div style="flex:1">
+              <div class="form-row">
+                <div class="form-label">Custom subtitle override</div>
+                <input class="form-input" type="text" placeholder="Leave blank to use store subtitle" value="">
+                <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:3px">Max 30 characters. Currently using: store default.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORTING -->
+    <div id="reporting" class="screen">
+      <div class="topbar">
+        <span class="topbar-title">Reporting</span>
+        <div class="topbar-actions">
+          <select style="font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)">
+            <option>Last 30 days</option><option>Last 7 days</option><option>Custom</option>
+          </select>
+          <button class="btn-ghost">Export CSV</button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="row-stats">
+          <div class="mini-stat"><span class="mini-stat-l">Spend</span><span class="mini-stat-v">$8,240</span></div>
+          <div class="mini-stat"><span class="mini-stat-l">Impressions</span><span class="mini-stat-v">1.24M</span></div>
+          <div class="mini-stat"><span class="mini-stat-l">Taps</span><span class="mini-stat-v">41,100</span></div>
+          <div class="mini-stat"><span class="mini-stat-l">Installs</span><span class="mini-stat-v">2,795</span></div>
+          <div class="mini-stat"><span class="mini-stat-l">TTR</span><span class="mini-stat-v">3.4%</span></div>
+          <div class="mini-stat"><span class="mini-stat-l">CR</span><span class="mini-stat-v">6.8%</span></div>
+          <div class="mini-stat"><span class="mini-stat-l">Avg CPI</span><span class="mini-stat-v">$2.95</span></div>
+        </div>
+
+        <div class="chart-area">
+          <div class="metric-tabs">
+            <div class="mtab active">Installs</div>
+            <div class="mtab">Spend</div>
+            <div class="mtab">Impressions</div>
+            <div class="mtab">Taps</div>
+          </div>
+          <div class="chart-label">Daily installs — last 30 days</div>
+          <div class="bar-chart" id="bars"></div>
+          <div id="bar-labels" style="display:flex;gap:4px;margin-top:0"></div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header">
+            <span class="table-header-title">Breakdown</span>
+            <div class="filters">
+              <span class="chip active">Campaign</span>
+              <span class="chip">Ad group</span>
+              <span class="chip">Keyword</span>
+              <span class="chip">Country</span>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Campaign</th><th>Impressions</th><th>Taps</th><th>TTR</th><th>Installs</th><th>CR</th><th>Spend</th><th>CPI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>TaskFlow — Brand</td><td>320,410</td><td>11,214</td><td>3.5%</td><td>762</td><td>6.8%</td><td>$1,843</td><td>$2.42</td></tr>
+              <tr><td>TaskFlow — Competitor KW</td><td>141,200</td><td>4,901</td><td>3.5%</td><td>289</td><td>5.9%</td><td>$916</td><td>$3.17</td></tr>
+              <tr><td>MoodTrack — Discovery</td><td>582,000</td><td>19,270</td><td>3.3%</td><td>1,244</td><td>6.5%</td><td>$3,102</td><td>$2.49</td></tr>
+              <tr style="font-weight:500;background:var(--color-background-secondary)"><td>Total</td><td>1,043,610</td><td>35,385</td><td>3.4%</td><td>2,295</td><td>6.5%</td><td>$5,861</td><td>$2.55</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILLING -->
+    <div id="billing" class="screen">
+      <div class="topbar">
+        <span class="topbar-title">Billing</span>
+        <div class="topbar-actions">
+          <button class="btn-primary">Add funds</button>
+        </div>
+      </div>
+      <div class="content">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="form-card">
+            <div class="section-title">Prepaid balance</div>
+            <div class="budget-display"><span class="budget-num">$341.60</span><span class="budget-lbl">remaining</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:34%"></div></div>
+            <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:5px">$658.40 of $1,000 used this cycle</div>
+            <div style="margin-top:14px">
+              <div class="form-label">Top up amount</div>
+              <div style="display:flex;gap:6px;margin-top:5px">
+                <span class="chip active">$50</span>
+                <span class="chip">$100</span>
+                <span class="chip">$500</span>
+                <span class="chip">$1,000</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-card">
+            <div class="section-title">Spend alerts</div>
+            <div class="toggle-row">
+              <div>
+                <div style="font-size:13px">Alert at 50% daily budget</div>
+                <div style="font-size:11px;color:var(--color-text-secondary)">Email notification</div>
+              </div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div style="font-size:13px">Alert at 80% daily budget</div>
+                <div style="font-size:11px;color:var(--color-text-secondary)">Email notification</div>
+              </div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="toggle-row" style="border-bottom:none">
+              <div>
+                <div style="font-size:13px">Weekly performance digest</div>
+                <div style="font-size:11px;color:var(--color-text-secondary)">Every Monday at 9 AM</div>
+              </div>
+              <div class="toggle"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header"><span class="table-header-title">Invoice history</span></div>
+          <table>
+            <thead><tr><th>Invoice</th><th>Period</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>INV-0041</td><td>Mar 2026</td><td>$2,140.00</td><td><span class="badge badge-active">Paid</span></td><td><span style="font-size:11px;color:#185FA5;cursor:pointer">Download PDF</span></td></tr>
+              <tr><td>INV-0038</td><td>Feb 2026</td><td>$1,870.00</td><td><span class="badge badge-active">Paid</span></td><td><span style="font-size:11px;color:#185FA5;cursor:pointer">Download PDF</span></td></tr>
+              <tr><td>INV-0035</td><td>Jan 2026</td><td>$1,540.00</td><td><span class="badge badge-active">Paid</span></td><td><span style="font-size:11px;color:#185FA5;cursor:pointer">Download PDF</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+const vals = [48,62,41,55,70,88,95,80,74,61,55,70,84,92,78,65,58,72,88,100,91,76,68,82,95,88,74,60,70,85];
+const labels = ['Apr1','','','','','','7','','','','','','14','','','','','','21','','','','','','28','','','','',''];
+const barsEl = document.getElementById('bars');
+const labelsEl = document.getElementById('bar-labels');
+const max = Math.max(...vals);
+vals.forEach((v, i) => {
+  const b = document.createElement('div');
+  b.className = 'bar' + (v === max ? ' hi' : '');
+  b.style.height = Math.round((v / max) * 78) + 'px';
+  b.style.flex = '1';
+  barsEl.appendChild(b);
+  const l = document.createElement('div');
+  l.className = 'bar-label';
+  l.style.flex = '1';
+  l.textContent = labels[i];
+  labelsEl.appendChild(l);
+});
+
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', function() {
+    const siblings = this.parentElement.querySelectorAll('.chip');
+    siblings.forEach(s => s.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+document.querySelectorAll('.toggle').forEach(t => {
+  t.addEventListener('click', function() { this.classList.toggle('on'); });
+});
+document.querySelectorAll('.mtab').forEach(t => {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.mtab').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
