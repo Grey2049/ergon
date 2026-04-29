@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import appadsWireframeRaw from "../assets/docs/appads_wireframe.html?raw";
+import buildFigmaDashboardHTML from "./figmaDashboardHTML";
 
 // ── Icon helper ───────────────────────────────────────────────────────────
 
@@ -325,97 +326,8 @@ td{padding:12px 20px;border-bottom:1px solid #f9fafb;font-size:13px;}
 </body></html>`;
 }
 
-function buildFigmaWireframe({ fileName, figmaUrl }) {
-  const title = fileName
-    ? fileName.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ").split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
-    : "Figma Design";
-  const sourceLabel = figmaUrl ? figmaUrl.split("/").slice(-1)[0]?.split("?")[0] || "Figma File" : fileName || "Design File";
-
-  return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>${title} — HTML Export</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:#0f172a;color:#f1f5f9;min-height:100vh;}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:#1e293b;border-bottom:1px solid #334155;}
-.logo-area{display:flex;align-items:center;gap:10px;}
-.figma-badge{display:flex;align-items:center;gap:6px;padding:4px 10px;background:#1a1a2e;border:1px solid #334155;border-radius:6px;font-size:11px;color:#94a3b8;}
-.figma-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#a259ff,#1abcfe);}
-.page-title{font-size:15px;font-weight:600;color:#f1f5f9;}
-.actions{display:flex;gap:8px;}
-.btn{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:none;}
-.btn-ghost{background:transparent;color:#94a3b8;border:1px solid #334155;}
-.btn-primary{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;}
-.hero{padding:60px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
-.hero-text h1{font-size:36px;font-weight:800;line-height:1.15;background:linear-gradient(135deg,#e2e8f0,#a259ff,#1abcfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;}
-.hero-text p{font-size:15px;color:#94a3b8;line-height:1.7;margin-bottom:28px;}
-.hero-cta{display:flex;gap:12px;}
-.cta-primary{padding:12px 24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-radius:10px;font-weight:600;font-size:14px;border:none;cursor:pointer;}
-.cta-ghost{padding:12px 24px;background:transparent;color:#e2e8f0;border:1px solid #334155;border-radius:10px;font-weight:500;font-size:14px;cursor:pointer;}
-.hero-visual{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:24px;height:280px;display:flex;flex-direction:column;gap:12px;}
-.vis-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#6366f1,#8b5cf6);}
-.vis-bar.w90{width:90%;}
-.vis-bar.w70{width:70%;background:linear-gradient(90deg,#06b6d4,#1abcfe);}
-.vis-bar.w55{width:55%;background:linear-gradient(90deg,#10b981,#34d399);}
-.vis-bar.w40{width:40%;background:linear-gradient(90deg,#f59e0b,#fbbf24);}
-.vis-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto;}
-.vis-card{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:12px;}
-.vis-card-val{font-size:20px;font-weight:700;color:#6366f1;}
-.vis-card-label{font-size:10px;color:#64748b;margin-top:2px;}
-.features{padding:0 48px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.feat{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:24px;}
-.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px;}
-.feat h3{font-size:14px;font-weight:600;color:#f1f5f9;margin-bottom:6px;}
-.feat p{font-size:13px;color:#64748b;line-height:1.6;}
-.source-tag{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:#0f172a;border:1px solid #334155;border-radius:20px;font-size:10px;color:#64748b;margin-bottom:12px;}
-</style>
-</head>
-<body>
-<div class="topbar">
-  <div class="logo-area">
-    <div class="figma-badge"><div class="figma-dot"></div>Figma Export</div>
-    <span class="page-title">${title}</span>
-  </div>
-  <div class="actions">
-    <button class="btn btn-ghost">View Source</button>
-    <button class="btn btn-primary">Deploy</button>
-  </div>
-</div>
-<div class="hero">
-  <div class="hero-text">
-    <div class="source-tag">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/><path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/><path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/></svg>
-      ${sourceLabel}
-    </div>
-    <h1>${title}</h1>
-    <p>Your Figma design has been converted to production-ready HTML. Components, spacing, and design tokens have been preserved from the original design.</p>
-    <div class="hero-cta">
-      <button class="cta-primary">Get Started Free</button>
-      <button class="cta-ghost">View Demo</button>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div style="font-size:11px;color:#64748b;margin-bottom:4px;">Performance Overview</div>
-    <div class="vis-bar w90"></div>
-    <div class="vis-bar w70"></div>
-    <div class="vis-bar w55"></div>
-    <div class="vis-bar w40"></div>
-    <div class="vis-cards">
-      <div class="vis-card"><div class="vis-card-val">98%</div><div class="vis-card-label">Fidelity Score</div></div>
-      <div class="vis-card"><div class="vis-card-val" style="color:#1abcfe">4.2s</div><div class="vis-card-label">Build Time</div></div>
-      <div class="vis-card"><div class="vis-card-val" style="color:#34d399">A+</div><div class="vis-card-label">Accessibility</div></div>
-      <div class="vis-card"><div class="vis-card-val" style="color:#fbbf24">100</div><div class="vis-card-label">Perf Score</div></div>
-    </div>
-  </div>
-</div>
-<div class="features">
-  <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#1e1b4b,#312e81);">🎨</div><h3>Design Tokens</h3><p>Colors, typography, spacing, and shadows extracted directly from your Figma variables and styles.</p></div>
-  <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#0c4a6e,#075985);">⚡</div><h3>Optimized Output</h3><p>Clean semantic HTML with Tailwind classes. No bloated inline styles or unnecessary wrappers.</p></div>
-  <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#14532d,#166534);">📱</div><h3>Responsive Ready</h3><p>Breakpoints from your Figma frames are automatically mapped to responsive CSS classes.</p></div>
-</div>
-</body></html>`;
+function buildFigmaWireframe() {
+  return buildFigmaDashboardHTML();
 }
 
 function generateWireframeHTML(files, figmaUrl) {
@@ -447,10 +359,11 @@ function WireframeBlock({ html, type, figmaParams }) {
   const [stepIdx, setStepIdx]       = useState(0);
 
   const steps = [
-    "Analysing wireframe structure…",
-    figmaParams?.font   ? `Applying ${figmaParams.font} typography…`   : "Extracting components & tokens…",
-    figmaParams?.ui     ? `Configuring ${figmaParams.ui} design tokens…` : "Building Figma layers…",
-    figmaParams?.charts ? `Setting up ${figmaParams.charts} components…` : "Exporting to Figma file…",
+    "Analysing Figma design structure…",
+    figmaParams?.font   ? `Applying ${figmaParams.font} typography…`   : "Applying Inter font family…",
+    figmaParams?.ui     ? `Configuring ${figmaParams.ui} design tokens…` : "Configuring DaisyUI + Tailwind components…",
+    figmaParams?.charts ? `Setting up ${figmaParams.charts} components…` : "Rendering ApexCharts visualisations…",
+    "Building React-ready HTML output…",
   ];
 
   useEffect(() => {
@@ -480,6 +393,7 @@ function WireframeBlock({ html, type, figmaParams }) {
 
   const typeLabel = { figma: "Figma → HTML", reporting: "Reporting Dashboard", campaign: "Campaign Creation", appads: "AppAds Wireframe", "wireframe-figma": "Wireframe → Figma", "figma-direct": "Wireframe → Figma" }[type] || type;
   const typeColor = { figma: "text-purple-600", reporting: "text-teal-600", campaign: "text-blue-600", appads: "text-blue-700", "wireframe-figma": "text-emerald-600", "figma-direct": "text-purple-600" }[type] || "text-gray-600";
+  const showReactLink = type === "figma" || type === "figma-direct";
 
   return (
     <div className="mt-3 w-full">
@@ -497,6 +411,13 @@ function WireframeBlock({ html, type, figmaParams }) {
               <button onClick={download} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors px-2 py-1 rounded hover:bg-gray-100">
                 <Ico d={ICONS.download2} size={12} /> Download HTML
               </button>
+              {showReactLink && (
+                <a href="/campaign-dashboard" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-emerald-600 hover:text-emerald-800 transition-colors font-medium px-2 py-1 rounded hover:bg-emerald-50">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><path d="M2 12h20"/></svg>
+                  View in React
+                </a>
+              )}
               <button onClick={openFull} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
                 <Ico d={ICONS.expand} size={12} /> Open fullscreen
               </button>
@@ -655,11 +576,10 @@ function buildAiResponse(text, files, figmaUrl) {
     const names = files.map(f => `**${f.name}**`).join(", ");
     const font   = lower.includes("inter") ? "Inter" : lower.includes("poppins") ? "Poppins" : lower.includes("roboto") ? "Roboto" : "Inter";
     const ui     = lower.includes("daisy") ? "DaisyUI" : lower.includes("material") ? "Material UI" : lower.includes("chakra") ? "Chakra UI" : lower.includes("ant") ? "Ant Design" : "DaisyUI";
-    const charts = lower.includes("apex") ? "Apex Charts" : lower.includes("recharts") ? "Recharts" : lower.includes("chart.js") ? "Chart.js" : lower.includes("d3") ? "D3.js" : null;
+    const charts = lower.includes("apex") ? "ApexCharts" : lower.includes("recharts") ? "Recharts" : lower.includes("chart.js") ? "Chart.js" : lower.includes("d3") ? "D3.js" : "ApexCharts";
     const figmaParams = { font, ui, charts };
-    const chartLine = charts ? `\n- **Charts:** ${charts}` : "";
     return {
-      text: `I've analysed your wireframe ${names}.\n\n**Design system applied:**\n- **Font:** ${font}\n- **UI Library:** ${ui}${chartLine}\n- Layout structure & component hierarchy\n- Spacing & sizing tokens\n\nGenerating your Figma file now…`,
+      text: `I've analysed your wireframe ${names}.\n\n**Design system applied:**\n- **Font:** ${font}\n- **UI Library:** ${ui}\n- **Charts:** ${charts}\n- Layout structure & component hierarchy\n- Spacing & sizing tokens\n\nGenerating your Figma file now… The output is also available as a **React component** at [\`/campaign-dashboard\`](/campaign-dashboard).`,
       wireframe: "__figma_direct__",
       wireType: "figma-direct",
       figmaParams,
@@ -670,7 +590,7 @@ function buildAiResponse(text, files, figmaUrl) {
     const { html, type } = generateWireframeHTML(files, figmaUrl);
     const source = figmaUrl ? `Figma URL` : `**${files[0]?.name}**`;
     return {
-      text: `I've converted your ${source} into production-ready **HTML**.\n\nThe output includes:\n- Extracted design tokens (colors, typography, spacing)\n- Semantic HTML structure\n- Responsive breakpoints\n- Optimized component layout\n\nYou can open it fullscreen or download the HTML file below.`,
+      text: `I've converted your ${source} into a production-ready **Campaign Dashboard** with 4 interactive pages.\n\n**Tech stack applied:**\n- **Font:** Inter (Google Fonts)\n- **UI Library:** DaisyUI 4.x + Tailwind CSS\n- **Charts:** ApexCharts (area + bar charts)\n- **Pages:** Dashboard · New Campaign · Reporting · Billing\n\nUse the sidebar to navigate between pages. The output is also available as **React components** at [\`/campaign-dashboard\`](/campaign-dashboard).\n\nYou can open it fullscreen or download the HTML file below.`,
       wireframe: html, wireType: type,
     };
   }
@@ -785,7 +705,7 @@ function MessageBubble({ msg }) {
           style={{ background: "linear-gradient(135deg, #374151, #111827)" }}>UP</div>
       )}
 
-      <div className={`flex flex-col gap-1.5 ${isUser ? "items-end max-w-lg" : "items-start w-full max-w-2xl"}`}>
+      <div className={`flex flex-col gap-1.5 ${isUser ? "items-end max-w-lg" : "items-start w-full max-w-[60vw]"}`}>
         {msg.files?.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-1">
             {msg.files.map((f, i) => (
@@ -1326,7 +1246,7 @@ export default function AiChatPage() {
         {hasMessages && (
           <div className="flex-1 flex flex-col overflow-hidden relative">
             <div className="flex-1 overflow-y-auto px-5 py-6">
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-[60vw] mx-auto">
                 {messages.map(msg => <MessageBubble key={msg.id} msg={msg} />)}
                 {loading && (
                   <div className="flex gap-3 mb-6" style={{ animation: "fadeSlideIn 0.2s ease-out" }}>
@@ -1345,7 +1265,7 @@ export default function AiChatPage() {
               </div>
             </div>
             <div className="px-5 pb-5 pt-2 relative">
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-[60vw] mx-auto">
                 <ChatBox input={input} setInput={setInput} files={files} setFiles={setFiles}
                   onSend={send} onKeyDown={onKeyDown} fileInputRef={fileInputRef}
                   figmaInputRef={figmaInputRef} handleFiles={handleFiles}
