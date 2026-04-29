@@ -5,7 +5,7 @@ const NAV_ITEMS = [
   { label: "Dashboard",    to: "/campaign-dashboard" },
   { label: "Campaigns",    to: "/campaign-dashboard" },
   { label: "New Campaign", to: "/campaign-dashboard/new" },
-  { label: "Reporting",    to: "/campaign-dashboard" },
+  { label: "Reporting",    to: "/campaign-dashboard/reporting" },
   { label: "Billing",      to: "/campaign-dashboard" },
   { label: "Settings",     to: "/campaign-dashboard" },
 ];
