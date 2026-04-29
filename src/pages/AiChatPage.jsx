@@ -421,11 +421,11 @@ function WireframeBlock({ html, type, figmaParams }) {
               <button onClick={openFull} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors font-medium px-2 py-1 rounded hover:bg-indigo-50">
                 <Ico d={ICONS.expand} size={12} /> Open fullscreen
               </button>
-              <button onClick={handleGenerateFigma}
+              {/* <button onClick={handleGenerateFigma}
                 className="flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-1.5 rounded-lg shadow-sm transition-all"
                 style={{ background: "linear-gradient(135deg,#7c3aed,#a855f7)", boxShadow: "0 2px 8px rgba(124,58,237,0.4)" }}>
                 <Ico d={ICONS.figma} size={12} stroke="white" /> Generate Figma
-              </button>
+              </button> */}
             </>
           )}
           {figmaState === "generating" && (
@@ -893,7 +893,7 @@ function ChatBox({ input, setInput, files, setFiles, onSend, onKeyDown, fileInpu
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden transition-all duration-200"
       style={{
-        maxWidth: compact ? "100%" : 560,
+        maxWidth: compact ? "100%" : 840,
         border: "1px solid rgba(99,102,241,0.15)",
         boxShadow: "0 4px 24px rgba(99,102,241,0.1), 0 1px 4px rgba(0,0,0,0.06)",
       }}>
@@ -1077,7 +1077,7 @@ export default function AiChatPage() {
     <div className="flex overflow-hidden min-h-screen" style={{ background: "#eeebe4", fontFamily: "Inter, system-ui, sans-serif" }}>
 
       {/* Sidebar */}
-      <aside className="w-14 flex flex-col items-center py-4 gap-1 shrink-0 z-10"
+      <aside className="w-14 flex flex-col items-center py-4 gap-1 shrink-0 z-10 fixed h-screen left-0 top-0"
         style={{ borderRight: "1px solid rgba(0,0,0,0.07)", background: "rgba(255,255,255,0.4)", backdropFilter: "blur(8px)" }}>
         {/* Back to Dashboard */}
         <button onClick={() => window.location.reload()} title="Refresh chat"
@@ -1115,7 +1115,7 @@ export default function AiChatPage() {
       </aside>
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0 relative overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 relative overflow-hidden ps-14">
 
         {/* Dot-grid + blob background */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">

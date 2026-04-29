@@ -14,7 +14,9 @@ export default function Layout() {
 
   return (
     <div className="flex h-screen bg-base-200 overflow-hidden" data-theme={theme}>
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="shrink-0">
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      </div>
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Navbar onMenuClick={() => setSidebarOpen(true)} currentTheme={theme} onThemeChange={handleThemeChange} />
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
