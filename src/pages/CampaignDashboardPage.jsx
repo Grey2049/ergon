@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
   { label: "Dashboard",    to: "/campaign-dashboard" },
   { label: "Campaigns",    to: "/campaign-dashboard" },
-  { label: "New Campaign", to: "/campaign-dashboard" },
+  { label: "New Campaign", to: "/campaign-dashboard/new" },
   { label: "Reporting",    to: "/campaign-dashboard" },
   { label: "Billing",      to: "/campaign-dashboard" },
   { label: "Settings",     to: "/campaign-dashboard" },
@@ -102,6 +102,7 @@ const FILTER_STYLE = {
 };
 
 export default function CampaignDashboardPage() {
+  const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState("Dashboard");
   const [filter, setFilter] = useState("All");
 
@@ -121,10 +122,13 @@ export default function CampaignDashboardPage() {
 
         {/* Nav */}
         <nav className="flex-1 px-3 pt-4 space-y-0.5">
-          {NAV_ITEMS.map(({ label }) => (
+          {NAV_ITEMS.map(({ label, to }) => (
             <button
               key={label}
-              onClick={() => setActiveNav(label)}
+              onClick={() => {
+                setActiveNav(label);
+                if (to !== "/campaign-dashboard") navigate(to);
+              }}
               className={`w-full text-left text-sm px-3 py-2.5 rounded-lg transition-colors ${
                 activeNav === label
                   ? "bg-violet-600 text-white font-medium"
@@ -158,7 +162,10 @@ export default function CampaignDashboardPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium transition-colors">
+          <button
+            onClick={() => navigate("/campaign-dashboard/new")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium transition-colors"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>

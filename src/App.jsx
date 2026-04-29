@@ -7,6 +7,7 @@ import Audience from "./pages/Audience";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import CampaignDashboardPage from "./pages/CampaignDashboardPage";
+import NewCampaignPage from "./pages/NewCampaignPage";
 import AiChatPage from "./pages/AiChatPage";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/campaign-dashboard" element={<CampaignDashboardPage />} />
+        <Route path="/campaign-dashboard/new" element={<NewCampaignPage />} />
         <Route path="/ai-chat" element={<AiChatPage />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
