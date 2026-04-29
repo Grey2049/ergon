@@ -68,7 +68,7 @@ body,html{height:100%;font-family:'Inter',system-ui,sans-serif}
     <h1 style="font-size:24px;font-weight:700;color:#111827">Campaign Dashboard</h1>
     <div style="display:flex;gap:12px">
       <button class="btn btn-outline btn-sm gap-2" style="font-family:'Inter',sans-serif">Last 30 days <svg style="width:14px;height:14px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
-      <button class="btn btn-sm gap-2" style="background:#7c3aed;border-color:#7c3aed;color:#fff;font-family:'Inter',sans-serif" onclick="showPage('newcampaign',document.querySelectorAll('.nav-btn')[1])">+ New Campaign</button>
+      <button class="btn btn-sm gap-2" style="background:#7c3aed;border-color:#7c3aed;color:#fff;font-family:'Inter',sans-serif" onclick="showPage('newcampaign',document.querySelectorAll('.nav-btn')[1])">New Campaign</button>
     </div>
   </div>
   <div style="padding:16px 32px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:24px">

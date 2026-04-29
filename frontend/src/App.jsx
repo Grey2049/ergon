@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import CampaignLayout from "./components/layout/CampaignLayout";
 import Dashboard from "./pages/Dashboard";
 import Campaigns from "./pages/Campaigns";
 import Analytics from "./pages/Analytics";
@@ -16,11 +17,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/campaign-dashboard" element={<CampaignDashboardPage />} />
-        <Route path="/campaign-dashboard/new" element={<NewCampaignPage />} />
-        <Route path="/campaign-dashboard/reporting" element={<ReportingPage />} />
-        <Route path="/campaign-dashboard/billing" element={<BillingPage />} />
+        {/* Campaign dashboard pages — shared sidebar + theme */}
+        <Route path="/campaign-dashboard" element={<CampaignLayout />}>
+          <Route index element={<CampaignDashboardPage />} />
+          <Route path="new" element={<NewCampaignPage />} />
+          <Route path="reporting" element={<ReportingPage />} />
+          <Route path="billing" element={<BillingPage />} />
+        </Route>
+
         <Route path="/ai-chat" element={<AiChatPage />} />
+
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="campaigns" element={<Campaigns />} />

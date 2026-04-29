@@ -1,116 +1,447 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AppAds Wireframe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary)}
-.shell{display:flex;height:100%;min-height:600px}
-.sidebar{width:200px;flex-shrink:0;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:16px 0;display:flex;flex-direction:column;gap:2px}
-.logo{padding:8px 16px 16px;font-size:15px;font-weight:500;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:8px}
-.logo span{color:#378ADD}
-.nav-item{padding:8px 16px;font-size:13px;cursor:pointer;color:var(--color-text-secondary);border-radius:0;display:flex;align-items:center;gap:8px;transition:background 0.1s}
-.nav-item:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
-.nav-item.active{background:var(--color-background-info);color:#185FA5;font-weight:500}
-.nav-icon{width:14px;height:14px;opacity:0.6;flex-shrink:0}
-.main{flex:1;overflow:auto;background:var(--color-background-secondary)}
-.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 20px;height:48px;display:flex;align-items:center;justify-content:space-between}
-.topbar-title{font-size:14px;font-weight:500}
-.topbar-actions{display:flex;gap:8px;align-items:center}
-.btn-primary{background:#185FA5;color:#fff;border:none;padding:6px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;font-weight:500}
-.btn-ghost{background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);padding:6px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer}
-.content{padding:20px}
-.screen{display:none}
-.screen.active{display:block}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
-.stat-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px}
-.stat-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
-.stat-val{font-size:20px;font-weight:500}
-.stat-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
-.table-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden}
-.table-header{padding:12px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between}
-.table-header-title{font-size:13px;font-weight:500}
-.filters{display:flex;gap:6px}
-.chip{font-size:11px;padding:3px 10px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer}
-.chip.active{background:#E6F1FB;color:#185FA5;border-color:#B5D4F4}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{padding:8px 12px;text-align:left;color:var(--color-text-secondary);font-weight:500;font-size:11px;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
-td{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--color-background-secondary)}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500}
-.badge-active{background:#EAF3DE;color:#3B6D11}
-.badge-paused{background:#F1EFE8;color:#5F5E5A}
-.badge-draft{background:#FAEEDA;color:#854F0B}
-.section-title{font-size:13px;font-weight:500;margin-bottom:12px;color:var(--color-text-primary)}
-.form-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:20px;margin-bottom:14px}
-.form-row{margin-bottom:14px}
-.form-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px}
-.form-input{width:100%;padding:7px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary)}
-.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.steps{display:flex;gap:0;margin-bottom:20px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden}
-.step{flex:1;padding:10px;text-align:center;font-size:11px;color:var(--color-text-secondary);cursor:pointer;border-right:0.5px solid var(--color-border-tertiary);position:relative}
-.step:last-child{border-right:none}
-.step.done{background:var(--color-background-success);color:#3B6D11}
-.step.current{background:#185FA5;color:#fff;font-weight:500}
-.step-num{display:block;font-size:10px;opacity:0.7;margin-bottom:2px}
-.keyword-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.ktag{background:#E6F1FB;color:#185FA5;padding:4px 10px;border-radius:20px;font-size:11px;display:flex;align-items:center;gap:5px}
-.ktag-x{cursor:pointer;opacity:0.6}
-.chart-area{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px;margin-bottom:14px}
-.chart-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:8px}
-.bar-chart{display:flex;align-items:flex-end;gap:4px;height:80px}
-.bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;background:#B5D4F4;position:relative;cursor:pointer;transition:background 0.1s}
-.bar:hover{background:#378ADD}
-.bar.hi{background:#185FA5}
-.bar-label{font-size:9px;text-align:center;color:var(--color-text-tertiary);margin-top:3px}
-.metric-tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:0.5px solid var(--color-border-tertiary)}
-.mtab{padding:7px 14px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
-.mtab.active{color:#185FA5;border-bottom-color:#185FA5;font-weight:500}
-.mini-stat{display:inline-flex;flex-direction:column;padding:8px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
-.mini-stat-l{font-size:10px;color:var(--color-text-secondary)}
-.mini-stat-v{font-size:16px;font-weight:500}
-.row-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.drill-table{margin-top:14px}
-.app-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:6px}
-.app-icon{width:36px;height:36px;border-radius:8px;background:#B5D4F4;display:flex;align-items:center;justify-content:center;font-size:10px;color:#185FA5;font-weight:500;flex-shrink:0}
-.app-meta{flex:1}
-.app-name{font-size:13px;font-weight:500}
-.app-cat{font-size:11px;color:var(--color-text-secondary)}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
-.toggle{width:32px;height:18px;border-radius:20px;background:#ccc;position:relative;cursor:pointer;flex-shrink:0}
-.toggle.on{background:#185FA5}
-.toggle::after{content:'';position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left 0.15s}
-.toggle.on::after{left:16px}
-.budget-display{display:flex;align-items:baseline;gap:4px;margin:6px 0}
-.budget-num{font-size:22px;font-weight:500;color:#185FA5}
-.budget-lbl{font-size:12px;color:var(--color-text-secondary)}
-.progress-bar{height:6px;background:var(--color-background-tertiary);border-radius:3px;margin-top:6px;overflow:hidden}
-.progress-fill{height:100%;background:#185FA5;border-radius:3px}
-.spend-warn{height:100%;background:#EF9F27;border-radius:3px}
-</style>
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-primary: #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-light: #EFF6FF;
+  --color-primary-border: #BFDBFE;
+  --color-primary-muted: #93C5FD;
+  --color-bg: #F8FAFC;
+  --color-bg-card: #FFFFFF;
+  --color-bg-secondary: #F1F5F9;
+  --color-bg-tertiary: #E2E8F0;
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+  --color-text: #0F172A;
+  --color-text-secondary: #64748B;
+  --color-text-tertiary: #94A3B8;
+  --color-success: #16A34A;
+  --color-success-bg: #F0FDF4;
+  --color-success-border: #BBF7D0;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-text: #92400E;
+  --color-warning-border: #FDE68A;
+  --color-muted-bg: #F8FAFC;
+  --color-muted-text: #64748B;
+  --color-muted-border: #E2E8F0;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+}
 
-<!-- <h2 class="sr-only">AppAds wireframe — interactive dashboard, campaign creation, and reporting screens</h2> -->
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.shell { display: flex; height: 100%; min-height: 600px; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--color-bg-card);
+  border-right: 1px solid var(--color-border);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.logo {
+  padding: 4px 20px 20px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.3px;
+}
+.logo span { color: var(--color-primary); }
+.nav-item {
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.15s ease;
+  margin: 0 8px;
+  border-radius: var(--radius-md);
+}
+.nav-item:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+}
+.nav-item.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.nav-icon { width: 16px; height: 16px; opacity: 0.55; flex-shrink: 0; }
+.nav-item.active .nav-icon { opacity: 0.85; }
+
+/* ── Main area ── */
+.main { flex: 1; overflow: auto; background: var(--color-bg); }
+
+.topbar {
+  background: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-title { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+.topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(37,99,235,0.2);
+}
+.btn-primary:hover { background: var(--color-primary-hover); box-shadow: 0 2px 4px rgba(37,99,235,0.3); }
+
+.btn-ghost {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+}
+.btn-ghost:hover { background: var(--color-bg-secondary); color: var(--color-text); border-color: var(--color-bg-tertiary); }
+
+.content { padding: 24px; }
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Stat cards ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease;
+}
+.stat-card:hover { box-shadow: var(--shadow-md); }
+.stat-label { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.stat-val { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--color-text); }
+.stat-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; font-weight: 500; }
+
+/* ── Table card ── */
+.table-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.table-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.table-header-title { font-size: 14px; font-weight: 600; }
+.filters { display: flex; gap: 6px; }
+
+.chip {
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+}
+.chip:hover { background: var(--color-bg-secondary); color: var(--color-text); }
+.chip.active { background: var(--color-primary-light); color: var(--color-primary); border-color: var(--color-primary-border); font-weight: 600; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--color-text-tertiary);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text);
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--color-bg-secondary); }
+
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.1px; }
+.badge-active { background: var(--color-success-bg); color: var(--color-success); }
+.badge-paused { background: var(--color-muted-bg); color: var(--color-muted-text); border: 1px solid var(--color-muted-border); }
+.badge-draft { background: var(--color-warning-bg); color: var(--color-warning-text); border: 1px solid var(--color-warning-border); }
+
+/* ── Form elements ── */
+.section-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--color-text); }
+.form-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.form-row { margin-bottom: 16px; }
+.form-label { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px; font-weight: 500; }
+.form-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.form-input:focus { border-color: var(--color-primary-muted); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.form-input::placeholder { color: var(--color-text-tertiary); }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ── Steps ── */
+.steps {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.step {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-right: 1px solid var(--color-border);
+  position: relative;
+  transition: all 0.15s ease;
+}
+.step:last-child { border-right: none; }
+.step.done { background: var(--color-success-bg); color: var(--color-success); font-weight: 600; }
+.step.current { background: var(--color-primary); color: #fff; font-weight: 600; }
+.step-num { display: block; font-size: 10px; opacity: 0.65; margin-bottom: 2px; font-weight: 600; }
+
+/* ── Tags ── */
+.keyword-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.ktag {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-primary-border);
+}
+.ktag-x { cursor: pointer; opacity: 0.5; transition: opacity 0.15s; }
+.ktag-x:hover { opacity: 1; }
+
+/* ── Chart area ── */
+.chart-area {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.chart-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px; font-weight: 500; }
+.bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 100px; padding: 0 2px; }
+.bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  background: var(--color-primary-muted);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  opacity: 0.6;
+}
+.bar:hover { background: var(--color-primary); opacity: 1; }
+.bar.hi { background: var(--color-primary); opacity: 1; }
+.bar-label { font-size: 10px; text-align: center; color: var(--color-text-tertiary); margin-top: 4px; font-weight: 500; }
+
+/* ── Metric tabs ── */
+.metric-tabs { display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid var(--color-border); }
+.mtab {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s ease;
+}
+.mtab:hover { color: var(--color-text-secondary); }
+.mtab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: 600; }
+
+/* ── Mini stats ── */
+.mini-stat {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 10px 16px;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.mini-stat-l { font-size: 11px; color: var(--color-text-tertiary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.mini-stat-v { font-size: 18px; font-weight: 700; margin-top: 2px; letter-spacing: -0.3px; }
+.row-stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+
+/* ── Billing ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+.toggle {
+  width: 36px;
+  height: 20px;
+  border-radius: 20px;
+  background: var(--color-bg-tertiary);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+.toggle.on { background: var(--color-primary); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: left 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.toggle.on::after { left: 18px; }
+
+.budget-display { display: flex; align-items: baseline; gap: 6px; margin: 8px 0; }
+.budget-num { font-size: 28px; font-weight: 700; color: var(--color-primary); letter-spacing: -0.5px; }
+.budget-lbl { font-size: 13px; color: var(--color-text-secondary); font-weight: 500; }
+.progress-bar { height: 8px; background: var(--color-bg-secondary); border-radius: 4px; margin-top: 8px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--color-primary); border-radius: 4px; transition: width 0.3s ease; }
+
+/* ── Misc ── */
+select {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  padding: 7px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+select:focus { border-color: var(--color-primary-muted); }
+
+.edit-link { font-size: 12px; color: var(--color-primary); cursor: pointer; font-weight: 500; transition: color 0.15s; }
+.edit-link:hover { color: var(--color-primary-hover); }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--color-border);
+}
+</style>
+</head>
+<body>
 
 <div class="shell">
   <div class="sidebar">
     <div class="logo"><span>App</span>Ads</div>
     <div class="nav-item active" onclick="show('dashboard',this)">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
       Dashboard
     </div>
     <div class="nav-item" onclick="show('create',this)">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       New campaign
     </div>
     <div class="nav-item" onclick="show('reporting',this)">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 12l4-4 3 3 4-5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M1 12l4-4 3 3 4-5 3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Reporting
     </div>
     <div class="nav-item" onclick="show('billing',this)">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="3" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M1 7h14" stroke="currentColor" stroke-width="1.2"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M1 7h14" stroke="currentColor" stroke-width="1.4"/></svg>
       Billing
     </div>
-    <div style="margin-top:auto;padding:12px 16px;border-top:0.5px solid var(--color-border-tertiary)">
-      <div style="font-size:11px;color:var(--color-text-tertiary)">Acme Apps Inc.</div>
-      <div style="font-size:11px;color:#185FA5;margin-top:2px;cursor:pointer">Settings</div>
+    <div class="sidebar-footer">
+      <div style="font-size:12px;color:var(--color-text-tertiary);font-weight:500">Acme Apps Inc.</div>
+      <div style="font-size:12px;color:var(--color-primary);margin-top:4px;cursor:pointer;font-weight:500">Settings</div>
     </div>
   </div>
 
@@ -120,18 +451,34 @@ tr:hover td{background:var(--color-background-secondary)}
       <div class="topbar">
         <span class="topbar-title">Campaigns</span>
         <div class="topbar-actions">
-          <select style="font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)">
+          <select>
             <option>Last 30 days</option><option>Last 7 days</option><option>Today</option>
           </select>
-          <button class="btn-primary" onclick="show('create',document.querySelector('.nav-item:nth-child(3)'))">+ New campaign</button>
+          <button class="btn-primary" onclick="show('create',document.querySelector('.nav-item:nth-child(3)'))">New campaign</button>
         </div>
       </div>
       <div class="content">
         <div class="stat-grid">
-          <div class="stat-card"><div class="stat-label">Total spend</div><div class="stat-val">$8,240</div><div class="stat-sub">+12% vs prev period</div></div>
-          <div class="stat-card"><div class="stat-label">Impressions</div><div class="stat-val">1.2M</div><div class="stat-sub">TTR 3.4%</div></div>
-          <div class="stat-card"><div class="stat-label">Taps</div><div class="stat-val">41,100</div><div class="stat-sub">CR 6.8%</div></div>
-          <div class="stat-card"><div class="stat-label">Installs</div><div class="stat-val">2,795</div><div class="stat-sub">avg CPI $2.95</div></div>
+          <div class="stat-card">
+            <div class="stat-label">Total spend</div>
+            <div class="stat-val">$8,240</div>
+            <div class="stat-sub">+12% vs prev period</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Impressions</div>
+            <div class="stat-val">1.2M</div>
+            <div class="stat-sub">TTR 3.4%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Taps</div>
+            <div class="stat-val">41,100</div>
+            <div class="stat-sub">CR 6.8%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Installs</div>
+            <div class="stat-val">2,795</div>
+            <div class="stat-sub">avg CPI $2.95</div>
+          </div>
         </div>
 
         <div class="table-card">
@@ -152,28 +499,28 @@ tr:hover td{background:var(--color-background-secondary)}
             </thead>
             <tbody>
               <tr>
-                <td><div style="font-weight:500">TaskFlow — Brand</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · US, CA, GB</div></td>
+                <td><div style="font-weight:600">TaskFlow — Brand</div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">iOS · US, CA, GB</div></td>
                 <td><span class="badge badge-active">Active</span></td>
                 <td>$50</td><td>$1,840</td><td>320K</td><td>11,200</td><td>760</td><td>$2.42</td>
-                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Edit</span></td>
+                <td><span class="edit-link">Edit</span></td>
               </tr>
               <tr>
-                <td><div style="font-weight:500">TaskFlow — Competitor KW</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · US</div></td>
+                <td><div style="font-weight:600">TaskFlow — Competitor KW</div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">iOS · US</div></td>
                 <td><span class="badge badge-active">Active</span></td>
                 <td>$30</td><td>$920</td><td>140K</td><td>4,900</td><td>290</td><td>$3.17</td>
-                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Edit</span></td>
+                <td><span class="edit-link">Edit</span></td>
               </tr>
               <tr>
-                <td><div style="font-weight:500">MoodTrack — Discovery</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · AU, NZ</div></td>
+                <td><div style="font-weight:600">MoodTrack — Discovery</div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">iOS · AU, NZ</div></td>
                 <td><span class="badge badge-paused">Paused</span></td>
                 <td>$20</td><td>$3,100</td><td>580K</td><td>19,300</td><td>1,240</td><td>$2.50</td>
-                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Edit</span></td>
+                <td><span class="edit-link">Edit</span></td>
               </tr>
               <tr>
-                <td><div style="font-weight:500">MoodTrack — Search Match</div><div style="font-size:11px;color:var(--color-text-secondary)">iOS · US</div></td>
+                <td><div style="font-weight:600">MoodTrack — Search Match</div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">iOS · US</div></td>
                 <td><span class="badge badge-draft">Draft</span></td>
                 <td>$15</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
-                <td><span style="font-size:11px;color:#185FA5;cursor:pointer">Launch</span></td>
+                <td><span class="edit-link">Launch</span></td>
               </tr>
             </tbody>
           </table>
@@ -221,23 +568,23 @@ tr:hover td{background:var(--color-background-secondary)}
           <div class="section-title">Targeting</div>
           <div class="form-row">
             <div class="form-label">Countries / regions</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
               <span class="ktag">United States <span class="ktag-x">×</span></span>
               <span class="ktag">Canada <span class="ktag-x">×</span></span>
               <span class="ktag">United Kingdom <span class="ktag-x">×</span></span>
-              <span style="font-size:11px;color:#185FA5;cursor:pointer;align-self:center">+ Add country</span>
+              <span style="font-size:12px;color:var(--color-primary);cursor:pointer;align-self:center;font-weight:500">+ Add country</span>
             </div>
           </div>
           <div class="form-row-2">
             <div>
               <div class="form-label">Device</div>
-              <select class="form-input" style="padding:7px 10px">
+              <select class="form-input" style="padding:9px 12px">
                 <option>iPhone + iPad</option><option>iPhone only</option><option>iPad only</option>
               </select>
             </div>
             <div>
               <div class="form-label">Age filter</div>
-              <select class="form-input" style="padding:7px 10px">
+              <select class="form-input" style="padding:9px 12px">
                 <option>All ages</option><option>18+</option><option>25+</option>
               </select>
             </div>
@@ -263,7 +610,7 @@ tr:hover td{background:var(--color-background-secondary)}
             </div>
             <div>
               <div class="form-label">Search match</div>
-              <select class="form-input" style="padding:7px 10px">
+              <select class="form-input" style="padding:9px 12px">
                 <option>Broad</option><option>Exact</option><option selected>Auto</option>
               </select>
             </div>
@@ -282,24 +629,24 @@ tr:hover td{background:var(--color-background-secondary)}
 
         <div class="form-card">
           <div class="section-title">Creative preview</div>
-          <div style="display:flex;gap:16px;align-items:flex-start">
-            <div style="width:240px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;flex-shrink:0">
-              <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Search result</div>
-              <div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)">
-                <div style="width:40px;height:40px;border-radius:9px;background:#B5D4F4;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#185FA5;font-weight:500">TF</div>
+          <div style="display:flex;gap:20px;align-items:flex-start">
+            <div style="width:260px;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:16px;flex-shrink:0">
+              <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">Search result</div>
+              <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--color-bg-card);border-radius:var(--radius-md);border:1px solid var(--color-border)">
+                <div style="width:42px;height:42px;border-radius:10px;background:var(--color-primary-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--color-primary);font-weight:700">TF</div>
                 <div style="flex:1;min-width:0">
-                  <div style="font-size:12px;font-weight:500">TaskFlow</div>
-                  <div style="font-size:10px;color:var(--color-text-secondary)">Smart task & project planner</div>
-                  <div style="font-size:9px;color:var(--color-text-tertiary);margin-top:2px">Sponsored · Productivity</div>
+                  <div style="font-size:13px;font-weight:600">TaskFlow</div>
+                  <div style="font-size:11px;color:var(--color-text-secondary)">Smart task & project planner</div>
+                  <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px">Sponsored · Productivity</div>
                 </div>
-                <div style="font-size:10px;background:#185FA5;color:#fff;padding:4px 8px;border-radius:20px;flex-shrink:0">Get</div>
+                <div style="font-size:11px;background:var(--color-primary);color:#fff;padding:5px 10px;border-radius:20px;flex-shrink:0;font-weight:600">Get</div>
               </div>
             </div>
             <div style="flex:1">
               <div class="form-row">
                 <div class="form-label">Custom subtitle override</div>
                 <input class="form-input" type="text" placeholder="Leave blank to use store subtitle" value="">
-                <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:3px">Max 30 characters. Currently using: store default.</div>
+                <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:4px">Max 30 characters. Currently using: store default.</div>
               </div>
             </div>
           </div>
@@ -312,7 +659,7 @@ tr:hover td{background:var(--color-background-secondary)}
       <div class="topbar">
         <span class="topbar-title">Reporting</span>
         <div class="topbar-actions">
-          <select style="font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)">
+          <select>
             <option>Last 30 days</option><option>Last 7 days</option><option>Custom</option>
           </select>
           <button class="btn-ghost">Export CSV</button>
@@ -338,7 +685,7 @@ tr:hover td{background:var(--color-background-secondary)}
           </div>
           <div class="chart-label">Daily installs — last 30 days</div>
           <div class="bar-chart" id="bars"></div>
-          <div id="bar-labels" style="display:flex;gap:4px;margin-top:0"></div>
+          <div id="bar-labels" style="display:flex;gap:3px;margin-top:0;padding:0 2px"></div>
         </div>
 
         <div class="table-card">
@@ -361,7 +708,7 @@ tr:hover td{background:var(--color-background-secondary)}
               <tr><td>TaskFlow — Brand</td><td>320,410</td><td>11,214</td><td>3.5%</td><td>762</td><td>6.8%</td><td>$1,843</td><td>$2.42</td></tr>
               <tr><td>TaskFlow — Competitor KW</td><td>141,200</td><td>4,901</td><td>3.5%</td><td>289</td><td>5.9%</td><td>$916</td><td>$3.17</td></tr>
               <tr><td>MoodTrack — Discovery</td><td>582,000</td><td>19,270</td><td>3.3%</td><td>1,244</td><td>6.5%</td><td>$3,102</td><td>$2.49</td></tr>
-              <tr style="font-weight:500;background:var(--color-background-secondary)"><td>Total</td><td>1,043,610</td><td>35,385</td><td>3.4%</td><td>2,295</td><td>6.5%</td><td>$5,861</td><td>$2.55</td></tr>
+              <tr style="font-weight:600;background:var(--color-bg-secondary)"><td>Total</td><td>1,043,610</td><td>35,385</td><td>3.4%</td><td>2,295</td><td>6.5%</td><td>$5,861</td><td>$2.55</td></tr>
             </tbody>
           </table>
         </div>
@@ -377,15 +724,15 @@ tr:hover td{background:var(--color-background-secondary)}
         </div>
       </div>
       <div class="content">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div class="form-card">
             <div class="section-title">Prepaid balance</div>
             <div class="budget-display"><span class="budget-num">$341.60</span><span class="budget-lbl">remaining</span></div>
             <div class="progress-bar"><div class="progress-fill" style="width:34%"></div></div>
-            <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:5px">$658.40 of $1,000 used this cycle</div>
-            <div style="margin-top:14px">
+            <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:6px;font-weight:500">$658.40 of $1,000 used this cycle</div>
+            <div style="margin-top:16px">
               <div class="form-label">Top up amount</div>
-              <div style="display:flex;gap:6px;margin-top:5px">
+              <div style="display:flex;gap:8px;margin-top:6px">
                 <span class="chip active">$50</span>
                 <span class="chip">$100</span>
                 <span class="chip">$500</span>
@@ -397,22 +744,22 @@ tr:hover td{background:var(--color-background-secondary)}
             <div class="section-title">Spend alerts</div>
             <div class="toggle-row">
               <div>
-                <div style="font-size:13px">Alert at 50% daily budget</div>
-                <div style="font-size:11px;color:var(--color-text-secondary)">Email notification</div>
+                <div style="font-size:13px;font-weight:500">Alert at 50% daily budget</div>
+                <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Email notification</div>
               </div>
               <div class="toggle on"></div>
             </div>
             <div class="toggle-row">
               <div>
-                <div style="font-size:13px">Alert at 80% daily budget</div>
-                <div style="font-size:11px;color:var(--color-text-secondary)">Email notification</div>
+                <div style="font-size:13px;font-weight:500">Alert at 80% daily budget</div>
+                <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Email notification</div>
               </div>
               <div class="toggle on"></div>
             </div>
             <div class="toggle-row" style="border-bottom:none">
               <div>
-                <div style="font-size:13px">Weekly performance digest</div>
-                <div style="font-size:11px;color:var(--color-text-secondary)">Every Monday at 9 AM</div>
+                <div style="font-size:13px;font-weight:500">Weekly performance digest</div>
+                <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Every Monday at 9 AM</div>
               </div>
               <div class="toggle"></div>
             </div>
@@ -424,9 +771,9 @@ tr:hover td{background:var(--color-background-secondary)}
           <table>
             <thead><tr><th>Invoice</th><th>Period</th><th>Amount</th><th>Status</th><th></th></tr></thead>
             <tbody>
-              <tr><td>INV-0041</td><td>Mar 2026</td><td>$2,140.00</td><td><span class="badge badge-active">Paid</span></td><td><span style="font-size:11px;color:#185FA5;cursor:pointer">Download PDF</span></td></tr>
-              <tr><td>INV-0038</td><td>Feb 2026</td><td>$1,870.00</td><td><span class="badge badge-active">Paid</span></td><td><span style="font-size:11px;color:#185FA5;cursor:pointer">Download PDF</span></td></tr>
-              <tr><td>INV-0035</td><td>Jan 2026</td><td>$1,540.00</td><td><span class="badge badge-active">Paid</span></td><td><span style="font-size:11px;color:#185FA5;cursor:pointer">Download PDF</span></td></tr>
+              <tr><td>INV-0041</td><td>Mar 2026</td><td>$2,140.00</td><td><span class="badge badge-active">Paid</span></td><td><span class="edit-link">Download PDF</span></td></tr>
+              <tr><td>INV-0038</td><td>Feb 2026</td><td>$1,870.00</td><td><span class="badge badge-active">Paid</span></td><td><span class="edit-link">Download PDF</span></td></tr>
+              <tr><td>INV-0035</td><td>Jan 2026</td><td>$1,540.00</td><td><span class="badge badge-active">Paid</span></td><td><span class="edit-link">Download PDF</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -445,14 +792,14 @@ function show(id, el) {
 }
 
 const vals = [48,62,41,55,70,88,95,80,74,61,55,70,84,92,78,65,58,72,88,100,91,76,68,82,95,88,74,60,70,85];
-const labels = ['Apr1','','','','','','7','','','','','','14','','','','','','21','','','','','','28','','','','',''];
+const labels = ['Apr 1','','','','','','7','','','','','','14','','','','','','21','','','','','','28','','','','',''];
 const barsEl = document.getElementById('bars');
 const labelsEl = document.getElementById('bar-labels');
 const max = Math.max(...vals);
 vals.forEach((v, i) => {
   const b = document.createElement('div');
   b.className = 'bar' + (v === max ? ' hi' : '');
-  b.style.height = Math.round((v / max) * 78) + 'px';
+  b.style.height = Math.round((v / max) * 90) + 'px';
   b.style.flex = '1';
   barsEl.appendChild(b);
   const l = document.createElement('div');
@@ -479,3 +826,6 @@ document.querySelectorAll('.mtab').forEach(t => {
   });
 });
 </script>
+
+</body>
+</html>
