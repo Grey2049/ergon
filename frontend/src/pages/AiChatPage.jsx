@@ -1073,7 +1073,7 @@ function ChatBox({ input, setInput, files, setFiles, onSend, onKeyDown, fileInpu
         </div>
 
         <input ref={fileInputRef} type="file" multiple
-          accept=".txt,.csv,.docx,.json,.md,.log,.xml,.html,.js,.ts,.py,.tsv,.pdf"
+          accept=".txt,.csv,.docx,.json,.md,.log,.xml,.html,.js,.ts,.py,.tsv,.pdf,.png,.jpg,.jpeg,.gif,.webp,.bmp,.svg"
           className="hidden" onChange={handleFiles} />
         <input ref={figmaInputRef} type="file" multiple
           accept=".fig,.svg"
@@ -1128,12 +1128,16 @@ export default function AiChatPage() {
   const handleFiles = (e, isFigma = false) => {
     Array.from(e.target.files).forEach((file) => {
       const reader = new FileReader();
+      const isImage = file.type.startsWith("image/");
       reader.onload = (ev) =>
         setFiles(prev => [...prev, {
           name: file.name, size: file.size, type: file.type,
-          content: ev.target.result, figmaMode: isFigma,
+          content: ev.target.result, figmaMode: isFigma, isImage,
         }]);
-      reader.readAsText(file);
+      // Read images as ArrayBuffer to preserve binary data;
+      // text files as text so the local parsers can still use the content
+      if (isImage) reader.readAsArrayBuffer(file);
+      else reader.readAsText(file);
     });
     e.target.value = "";
   };
