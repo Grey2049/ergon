@@ -3,11 +3,11 @@
  *
  * The API base URL is controlled by the VITE_API_BASE_URL env var.
  * - In dev with Vite proxy:  leave empty or set to "" (default)
- * - Direct backend call:     set to "http://localhost:8007"
- * - Production:              set to "https://api.yoursite.com"
+ * - Direct backend call:     set to "http://localhost:8002"
+ * - Production:              set to "https://api.ergon.ai"
  *
  * Set it in frontend/.env or frontend/.env.local:
- *   VITE_API_BASE_URL=http://localhost:8007
+ *   VITE_API_BASE_URL=http://localhost:8002
  */
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -42,24 +42,13 @@ export async function generateDesign({ inputType, text, file }) {
 /**
  * Call the design generation agent with SSE streaming.
  *
- * Returns an object with:
- *   - onEvent(type, callback)  — register a handler for a specific event type
- *   - start()                  — begin the stream
- *   - abort()                  — cancel the stream
- *
- * Event types emitted by the backend:
+ * Event types:
  *   - "agent:start"   — { run_id, goal, phase }
  *   - "agent:step"    — { step, phase, thought, tool, status, success, data }
  *   - "agent:phase"   — { from_phase, to_phase }
  *   - "agent:result"  — { figma_url, html_url, message, validation, ... }
  *   - "agent:error"   — { error }
  *   - "agent:clarify" — { question }
- *
- * Usage:
- *   const stream = generateDesignStream({ inputType: "text", text: "..." });
- *   stream.onEvent("agent:step", (data) => console.log(data));
- *   stream.onEvent("agent:result", (data) => console.log(data));
- *   await stream.start();
  */
 export function generateDesignStream({ inputType, text, file }) {
     const handlers = {};
@@ -103,24 +92,33 @@ export function generateDesignStream({ inputType, text, file }) {
 
             buffer += decoder.decode(value, { stream: true });
 
-            // Parse SSE frames from the buffer
-            const lines = buffer.split("\n");
-            buffer = lines.pop(); // keep incomplete line in buffer
+            // SSE frames are separated by double newlines (\n\n)
+            // Split on them and process complete frames
+            const frames = buffer.split("\n\n");
+            // Last element might be incomplete — keep it in buffer
+            buffer = frames.pop() || "";
 
-            let currentEvent = "message";
-            for (const line of lines) {
-                if (line.startsWith("event: ")) {
-                    currentEvent = line.slice(7).trim();
-                } else if (line.startsWith("data: ")) {
-                    try {
-                        const data = JSON.parse(line.slice(6));
-                        emit(currentEvent, data);
-                    } catch {
-                        // skip malformed JSON
+            for (const frame of frames) {
+                if (!frame.trim()) continue;
+
+                let eventType = "message";
+                let eventData = null;
+
+                for (const line of frame.split("\n")) {
+                    if (line.startsWith("event: ")) {
+                        eventType = line.slice(7).trim();
+                    } else if (line.startsWith("data: ")) {
+                        try {
+                            eventData = JSON.parse(line.slice(6));
+                        } catch {
+                            // skip malformed JSON
+                        }
                     }
-                    currentEvent = "message";
                 }
-                // empty line = end of event (already handled by split)
+
+                if (eventData) {
+                    emit(eventType, eventData);
+                }
             }
         }
     }
