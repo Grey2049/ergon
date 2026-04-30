@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import CampaignLayout from "./components/layout/CampaignLayout";
 import Dashboard from "./pages/Dashboard";
@@ -27,7 +27,9 @@ export default function App() {
 
         <Route path="/ai-chat" element={<AiChatPage />} />
 
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Navigate to="/ai-chat" replace />} />
+
+        <Route path="/dashboard" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="campaigns" element={<Campaigns />} />
           <Route path="analytics" element={<Analytics />} />
