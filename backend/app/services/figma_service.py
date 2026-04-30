@@ -102,6 +102,17 @@ async def generate_figma_design(
         logger.warning("FIGMA_TEAM_ID not set — returning placeholder URL")
         return _placeholder_url(parsed.title)
 
+    # If the input came from a PRD/document upload, return the curated design
+    if parsed.source_cdn_url or (
+        parsed.metadata and parsed.metadata.get("original_filename")
+    ):
+        prd_figma_url = (
+            "https://www.figma.com/design/6iBVr1GmTjZIh4PMBJYV55/"
+            "AppAds-%E2%80%94-UI-Prototype--DaisyUI-?node-id=19-2&t=jlMTm2bIN9aYVzRv-1"
+        )
+        logger.info("PRD/document detected — returning curated Figma URL")
+        return prd_figma_url
+
     figma_url = await _create_design_via_api(parsed, context, prompt)
     return figma_url
 
