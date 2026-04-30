@@ -346,7 +346,7 @@ function generateWireframeHTML(files, figmaUrl) {
 
 // ── Wireframe renderer ────────────────────────────────────────────────────
 
-const FIGMA_URL = "https://www.figma.com/design/6iBVr1GmTjZIh4PMBJYV55/AppAds-%E2%80%94-UI-Prototype--DaisyUI-?node-id=19-2&t=XuJeZP2vzjWrR1Fm-1";
+const FIGMA_URL = "https://www.figma.com/design/l3W1cTTz4wrfTUwyIoDeoh/Ergon-Dashboard?t=KwSIYox9fc5Wn0dE-0";
 const FIGMA_PAGES = [
   { label: "Dashboard", from: "#3b82f6", to: "#6366f1" },
   { label: "New Campaign", from: "#7c3aed", to: "#a855f7" },
